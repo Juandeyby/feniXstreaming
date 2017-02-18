@@ -7,7 +7,7 @@ package Simon;
 
 /**
  *
- * @author USUARIO
+ * @author USUARIO SULING
  */
 
 import java.io.IOException;
