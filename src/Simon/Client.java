@@ -7,7 +7,7 @@ package Simon;
 
 /**
  *
- * @author USUARIO
+ * @author USUARIO CESAR
  */
 import de.root1.simon.Lookup;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
