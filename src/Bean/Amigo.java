@@ -6,7 +6,7 @@
 package Bean;
 
 import static Bean.UsuarioLogueado.cn;
-import GUI.login;
+import GUI.Principal.login;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.sql.Statement;

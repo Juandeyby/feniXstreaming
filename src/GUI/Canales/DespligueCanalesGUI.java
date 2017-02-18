@@ -7,7 +7,7 @@ package GUI.Canales;
 
 import Bean.Canal;
 import Bean.Generico;
-import GUI.Principal;
+import GUI.Principal.Principal;
 
 /**
  *
