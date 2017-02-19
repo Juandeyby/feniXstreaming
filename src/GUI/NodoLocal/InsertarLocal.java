@@ -5,6 +5,8 @@
  */
 package GUI.NodoLocal;
 
+import Bean.AmigoLocal;
+import Utilitarios.Generico;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -179,11 +181,25 @@ public class InsertarLocal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            String  nombre =   jTNombrePila.getText();
+            String  nombre  =   jTNombrePila.getText();
             String  apodo = jTApodo.getText();
             String login = jtUsuarioLogin.getText();
             String   contra = jtContra.getText();
             String host = InetAddress.getLocalHost().getHostAddress();
+            String puerto =  "4545";
+            String ruta = "./compartido";
+            String estadoActual = "0" ;
+            AmigoLocal yo = new AmigoLocal();
+            yo.setAmigoCertificado(puerto);
+            yo.setAmigoIp(login);
+            yo.setAmigoLogueoName(login);
+            yo.getAmigoNombre();
+            yo.setAmigoPassword(apodo);
+            yo.setAmigoPuerto(puerto);
+            yo.setAmigoSobreNombre(nombre);
+            
+            yo.setIdAmigo(Generico.GetNewId("datosnodoactual"));
+        
         } catch (UnknownHostException ex) {
             Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -239,4 +255,5 @@ public class InsertarLocal extends javax.swing.JFrame {
     private javax.swing.JPasswordField jtContra;
     private javax.swing.JTextField jtUsuarioLogin;
     // End of variables declaration//GEN-END:variables
+
 }

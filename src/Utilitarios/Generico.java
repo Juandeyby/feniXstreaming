@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Bean;
+package Utilitarios;
 
 import Local.Conexion.Mysql;
 import Utilitarios.MiModel;
@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 
 /**
@@ -19,27 +21,28 @@ import javax.swing.JTable;
  * @author USUARIO
  */
 public class Generico {
+
     public static Connection cn = Mysql.getConection();
 
     public static void LLenarTabla(JTable JTabla, String[] cabecera, String sql) {
-             try {
-                    Statement sent;
+        try {
+            Statement sent;
             //if (id.length() != 0) {
-           
-                //System.out.println(sql_Cons);
+
+            //System.out.println(sql_Cons);
             //}
             sent = cn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
-            ArrayList<ArrayList<String >> arr = new ArrayList<>();
-            int i =0;
-            
+            ArrayList<ArrayList<String>> arr = new ArrayList<>();
+            int i = 0;
+
             while (rs.next()) {
-                arr.add(new ArrayList<String >());
-                 for(int a = 0 ; a < cabecera.length;a++ ){
-                arr.get(i).add(rs.getString(a+1));
-                 
-                 }
-                 i++;
+                arr.add(new ArrayList<String>());
+                for (int a = 0; a < cabecera.length; a++) {
+                    arr.get(i).add(rs.getString(a + 1));
+
+                }
+                i++;
             }
             if (i == 0) {
                 return;
@@ -71,6 +74,31 @@ public class Generico {
         }
         return desu;
     }
-    
-    
+
+    public static int GetNewId(String tabla) {
+
+        try {
+            String sql = "SELECT * \n"
+                    + "FROM " + tabla + " \n"
+                    + "WHERE id" + tabla + " = (\n"
+                    + "    SELECT max(id" + tabla + ") FROM table\n"
+                    + "    )";
+            int retorno = 0;
+            Statement sent;
+            
+            sent = cn.createStatement();
+            System.out.println(sql);
+            ResultSet rs = sent.executeQuery(sql);
+            int a = 0;
+            while (rs.next()) {
+                retorno = rs.getInt(1);
+            }
+            retorno++;
+            return retorno ;
+        } catch (SQLException ex) {
+            Logger.getLogger(Generico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1 ;
+    }
+
 }

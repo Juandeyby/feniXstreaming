@@ -5,7 +5,7 @@
  */
 package GUI.Amigo;
 
-import Bean.Generico;
+import Utilitarios.Generico;
 import GUI.Principal.Principal;
 import java.awt.Dimension;
 import java.awt.Toolkit;

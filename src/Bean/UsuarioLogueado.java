@@ -19,7 +19,7 @@ import sun.security.util.Password;
 public class UsuarioLogueado {
 
     private ArrayList<Canal> canales = new ArrayList<Canal>();
-    private Amigo usuario;
+    private AmigoLocal usuario;
     public static Connection cn = Mysql.getConection();
     public UsuarioLogueado(){
     
@@ -38,7 +38,7 @@ public class UsuarioLogueado {
             int a = 0;
             while (rs.next()) {
                 if (a == 0) {
-                    usuario = new Amigo();
+                    usuario = new AmigoLocal();
                     usuario.setAmigoCertificado(rs.getString("AmigoCertificado"));
                     usuario.setAmigoIp(rs.getString("AmigoIp"));
                     usuario.setAmigoLogueoName(rs.getString("AmigoLogueoName"));
@@ -75,7 +75,7 @@ public class UsuarioLogueado {
         return usuario;
     }
 
-    public void setUsuario(Amigo usuario) {
+    public void setUsuario(AmigoLocal usuario) {
         this.usuario = usuario;
     }
 
