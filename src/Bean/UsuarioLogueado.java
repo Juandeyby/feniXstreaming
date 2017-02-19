@@ -26,19 +26,9 @@ public class UsuarioLogueado {
     
     }
     public UsuarioLogueado(String usuarioNombre, String password) {
-        String sql = "SELECT\n"
-                + "     amiguito.* , "
-                + "     canales.*  "
-                + "\n"
-                + "FROM\n"
-                + "		  `CanalAmigos`  canalitos "
-                + "	INNER  JOIN `Amigo` amiguito on canalitos.`IdAmigo`= amiguito.`IdAmigo`\n"
-                + "\n"
-                + "     INNER JOIN `Canal` canales ON canalitos.`IdCanal` = canales.`IdCanal`\n"
-                + "WHERE\n"
-                + "      amiguito.`amigoLogueoName` ='" + usuarioNombre + "' and \n"
-                + "     amiguito.`amigopassword` = '" + password + "'\n";
-
+        String sql = "select * from  datosnodoactual  where "
+                + " amigologueoname =  '"+ usuarioNombre + "' and amigopassword = '"
+                + password +"'";
         try {
             Statement sent;
 
