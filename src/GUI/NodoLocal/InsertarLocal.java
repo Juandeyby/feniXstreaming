@@ -6,9 +6,11 @@
 package GUI.NodoLocal;
 
 import Bean.AmigoLocal;
+import Utilitarios.Encriptacion;
 import Utilitarios.Generico;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -189,18 +191,28 @@ public class InsertarLocal extends javax.swing.JFrame {
             String puerto =  "4545";
             String ruta = "./compartido";
             String estadoActual = "0" ;
-            AmigoLocal yo = new AmigoLocal();
-            yo.setAmigoCertificado(puerto);
-            yo.setAmigoIp(login);
-            yo.setAmigoLogueoName(login);
-            yo.getAmigoNombre();
-            yo.setAmigoPassword(apodo);
-            yo.setAmigoPuerto(puerto);
-            yo.setAmigoSobreNombre(nombre);
+            String Certificado = "Amigo:"+nombre+"%%"
+                    +"AmigoSobreNombre:"+apodo+"%%"
+                    +"AmigoLogueoName:"+login+"%%"
+                 + "AmigoIP:"+host+"%%"
+                        +"AmigoPuerto"+puerto+"%%"
+                    ;
+            Certificado= Encriptacion.Encriptar(Certificado);
             
+            AmigoLocal yo = new AmigoLocal();
+            yo.setAmigoCertificado(Certificado);
+            yo.setAmigoIp(host);
+            yo.setAmigoLogueoName(login);
+            yo.setAmigoNombre(nombre);
+            yo.setAmigoPassword(contra);
+            yo.setAmigoPuerto(puerto);
+            yo.setAmigoSobreNombre(apodo);
+            yo.setAmigoCertificado(Certificado);
             yo.setIdAmigo(Generico.GetNewId("datosnodoactual"));
-        
+            yo.insertar();
         } catch (UnknownHostException ex) {
+            Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
         }
          
