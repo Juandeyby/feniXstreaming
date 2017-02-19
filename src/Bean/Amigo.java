@@ -29,6 +29,7 @@ public class Amigo implements  Serializable{
     private String AmigoSobreNombre;
     private String AmigoLogueoName;
     private String AmigoPassword;
+   
     private boolean Activo ;
     public int getIdAmigo() {
         return idAmigo;

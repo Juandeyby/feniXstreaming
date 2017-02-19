@@ -5,7 +5,11 @@
  */
 package Bean;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,14 +17,11 @@ import java.util.ArrayList;
  */
 public class test {
     public static void main(String []args){
-    UsuarioLogueado usu=     new UsuarioLogueado("io0","io0");
-    Amigo a = usu.getUsuario();
-    ArrayList  <Canal>  canales= usu.getCanales();
-        System.err.println("  nombre  "+ a.getAmigoNombre());
-     for (Canal ca: canales){
-         System.out.println(ca);
-     
-     }
+        try {
+            System.out.println(InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
 }
