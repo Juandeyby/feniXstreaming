@@ -153,8 +153,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jBAmigosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAmigosActionPerformed
         // TODO add your handling code here:
-        AgregarAmigo addAmi = new AgregarAmigo();
-        addAmi.setMain(this);
+        AgregarAmigo addAmi = new AgregarAmigo(this);
         addAmi.estado(1);
     }//GEN-LAST:event_jBAmigosActionPerformed
 

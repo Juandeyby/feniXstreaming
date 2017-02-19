@@ -25,10 +25,14 @@ public class AgregarAmigo extends javax.swing.JFrame {
      */
     private Principal main;
 
-    public AgregarAmigo() {
-        System.err.println("FUNCIONAAAAAAA");
+    public AgregarAmigo(Principal main) {
+        this.main = main;
         initComponents();
-        initCertifPropio();
+        CertificadoPropio();
+    }
+
+    private AgregarAmigo() {
+        initComponents();
     }
 
     /**
@@ -220,7 +224,7 @@ public class AgregarAmigo extends javax.swing.JFrame {
         this.setLocation((int) (pantalla.width - ventana.width) / 2, (int) (pantalla.height - ventana.height) / 2);
     }
 
-    private void initCertifPropio() {
+    private void CertificadoPropio() {
         try {
             String where = "where IdAmigo = " + main.getUsuario().getUsuario().getIdAmigo();
             ArrayList<String> array = new Generico().consultaCon("datosnodoactual", "AmigoCertificado", where);
