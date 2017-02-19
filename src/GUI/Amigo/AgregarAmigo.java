@@ -26,6 +26,7 @@ public class AgregarAmigo extends javax.swing.JFrame {
     private Principal main;
 
     public AgregarAmigo() {
+        System.err.println("FUNCIONAAAAAAA");
         initComponents();
         initCertifPropio();
     }
@@ -171,7 +172,8 @@ public class AgregarAmigo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarAmigo().setVisible(true);
+                AgregarAmigo aA = new AgregarAmigo();
+                aA.setVisible(true);
             }
         });
     }
@@ -219,10 +221,10 @@ public class AgregarAmigo extends javax.swing.JFrame {
     }
 
     private void initCertifPropio() {
-        
         try {
             String where = "where IdAmigo = " + main.getUsuario().getUsuario().getIdAmigo();
-            ArrayList<String> array = new Generico().consultaCon("datosnodoactual", "amigocertificado", where);
+            ArrayList<String> array = new Generico().consultaCon("datosnodoactual", "AmigoCertificado", where);
+            System.out.println(array.get(0));
             jTPCertificadoPropio.setText(array.get(0));
         } catch (SQLException ex) {
             Logger.getLogger(AgregarAmigo.class.getName()).log(Level.SEVERE, null, ex);
