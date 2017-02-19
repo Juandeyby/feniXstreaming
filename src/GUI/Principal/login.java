@@ -19,6 +19,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,7 +30,7 @@ public class login extends javax.swing.JFrame {
     /**
      * Creates new form login
      */
-    UsuarioLogueado usuario ;
+    private UsuarioLogueado usuario = new UsuarioLogueado() ;
     public login() {
         initComponents();
     }
@@ -48,7 +49,7 @@ public class login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTPasword = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        jBLogin = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
@@ -66,10 +67,10 @@ public class login extends javax.swing.JFrame {
 
         jLabel2.setText("Contraseña ");
 
-        jButton1.setText("ENTRAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBLogin.setText("ENTRAR");
+        jBLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBLoginActionPerformed(evt);
             }
         });
 
@@ -94,7 +95,7 @@ public class login extends javax.swing.JFrame {
                             .addComponent(jTPasword)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(123, 123, 123)
-                        .addComponent(jButton1)
+                        .addComponent(jBLogin)
                         .addGap(46, 46, 46)
                         .addComponent(jButton2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -117,7 +118,7 @@ public class login extends javax.swing.JFrame {
                     .addComponent(jTPasword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(jBLogin)
                     .addComponent(jButton2))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
@@ -140,30 +141,34 @@ public class login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTUsuarioNombreActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLoginActionPerformed
         // TODO add your handling code here:
         String usuName = jTUsuarioNombre.getText();
         String contra = jTPasword.getText();
-         usuario = new UsuarioLogueado(usuName, contra);
         if (usuario != null && usuario.getUsuario()!=null) {
 
             try {
+                Registry registry = LocateRegistry.getRegistry();
+                TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
+                ArrayList<Amigo> presentes = testRemote.Login(usuName, contra);
+                //Amigo.CambiarAmigos(presentes);
+                if (presentes == null) {
+                    JOptionPane.showMessageDialog(null, "Datos Incorrectos");
+                    return;
+                }
+                usuario.setUsuario(presentes.get(presentes.size() - 1));
                 Principal prin = new Principal();
+                prin.setAmigosActivos(presentes);
                 prin.setUsuario(usuario);
                 prin.estado(1);
                 this.setVisible(false);
-                Registry registry = LocateRegistry.getRegistry();
-                TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
-                ArrayList<Amigo> presentes = testRemote.ImHere(usuario.getUsuario());
-               Amigo.CambiarAmigos(presentes);
-            } catch (RemoteException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NotBoundException ex) {
+
+            } catch (RemoteException | NotBoundException ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jBLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,7 +206,7 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jBLogin;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

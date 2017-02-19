@@ -10,5 +10,5 @@ public interface TestRemote extends Remote {
     dota sayHello(String name) throws RemoteException;
     ArrayList<Amigo> ImHere(Amigo  usu) throws RemoteException;
     ArrayList<Amigo> WhoIsThere() throws RemoteException;
-  
+    ArrayList<Amigo> Login(String user, String password) throws RemoteException;
 }

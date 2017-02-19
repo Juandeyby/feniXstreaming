@@ -18,35 +18,37 @@ import sun.security.util.Password;
  */
 public class UsuarioLogueado {
 
-    private ArrayList<Canal> canales= new ArrayList<Canal>();
+    private ArrayList<Canal> canales = new ArrayList<Canal>();
     private Amigo usuario;
     public static Connection cn = Mysql.getConection();
-
+    public UsuarioLogueado(){
+    
+    
+    }
     public UsuarioLogueado(String usuarioNombre, String password) {
         String sql = "SELECT\n"
-                + "     amiguito.* , " 
-                +"     canales.*  "
+                + "     amiguito.* , "
+                + "     canales.*  "
                 + "\n"
                 + "FROM\n"
                 + "		  `CanalAmigos`  canalitos "
                 + "	INNER  JOIN `Amigo` amiguito on canalitos.`IdAmigo`= amiguito.`IdAmigo`\n"
                 + "\n"
                 + "     INNER JOIN `Canal` canales ON canalitos.`IdCanal` = canales.`IdCanal`\n"
-               
                 + "WHERE\n"
-                + "      amiguito.`amigoLogueoName` ='" + usuarioNombre+ "' and \n"
+                + "      amiguito.`amigoLogueoName` ='" + usuarioNombre + "' and \n"
                 + "     amiguito.`amigopassword` = '" + password + "'\n";
-               
+
         try {
             Statement sent;
 
             sent = cn.createStatement();
             System.out.println(sql);
             ResultSet rs = sent.executeQuery(sql);
-            int a = 0 ;
+            int a = 0;
             while (rs.next()) {
-                if (a==0){
-                    usuario= new Amigo();
+                if (a == 0) {
+                    usuario = new Amigo();
                     usuario.setAmigoCertificado(rs.getString("AmigoCertificado"));
                     usuario.setAmigoIp(rs.getString("AmigoIp"));
                     usuario.setAmigoLogueoName(rs.getString("AmigoLogueoName"));
@@ -55,15 +57,15 @@ public class UsuarioLogueado {
                     usuario.setAmigoPuerto(rs.getString("AmigoPuerto"));
                     usuario.setAmigoSobreNombre(rs.getString("AmigoSobreNombre"));
                     usuario.setIdAmigo(rs.getInt("IdAmigo"));
-                
+
                 }
-                
-                Canal ca= new Canal();
-                ca.setIdCanal(rs.getInt("IdCanal"));
-                ca.setNombreRuteoCanal(rs.getString("CanalNombre"));
-                ca.setActivo(rs.getBoolean("CanalEstadoActual"));
-                canales.add(ca);
-a++;
+
+//                Canal ca= new Canal();
+//                ca.setIdCanal(rs.getInt("IdCanal"));
+//                ca.setNombreRuteoCanal(rs.getString("CanalNombre"));
+//                ca.setActivo(rs.getBoolean("CanalEstadoActual"));
+//                canales.add(ca);
+//a++;
             }
         } catch (Exception e) {
             e.printStackTrace();

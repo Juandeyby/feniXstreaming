@@ -71,7 +71,7 @@ public class Canal {
         } catch (Exception e) {
             e.printStackTrace();
         }
-         String sql2 ="select * from archivo where idcanal =  "+ idCanal;
+         String sql2 ="select * from Archivo where idcanal =  "+ idCanal;
         try {
             Statement sent;
 

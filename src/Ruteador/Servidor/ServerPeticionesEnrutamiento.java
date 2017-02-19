@@ -2,6 +2,7 @@ package Ruteador.Servidor;
 
 
 import Bean.Amigo;
+import Bean.UsuarioLogueado;
 import Ruteador.Bean.dota;
 import Ruteador.Bean.UsuarioConneccion;
 import java.rmi.Remote;
@@ -39,6 +40,17 @@ class ServerPeticionesEnrutamiento implements TestRemote {
     @Override
     public ArrayList<Amigo> WhoIsThere() throws RemoteException {
         return amigosPresentes;
+    }
+
+    @Override
+    public ArrayList<Amigo> Login(String user, String password) throws RemoteException {
+        UsuarioLogueado usuario = new UsuarioLogueado(user, password);
+            if (usuario.getUsuario()==null){
+            return null;
+            }
+                ArrayList<Amigo> presentes = ImHere(usuario.getUsuario());
+               
+        return presentes;
     }
 
         

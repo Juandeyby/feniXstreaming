@@ -103,7 +103,7 @@ public class Amigo implements  Serializable{
     }
  public  static  void  EstadoAmigosASinConexion(){
         try {
-            String sql = "update amigo set  amigoEstado = 0  ";
+            String sql = "update Amigo set  amigoEstado = 0  ";
             
             Statement sent = cn.createStatement();
             sent.executeUpdate(sql);
@@ -115,7 +115,7 @@ public class Amigo implements  Serializable{
     }
  public static void CambiarAmigos( ArrayList <Amigo> presentes ) {
         try {
-            String sql = "update amigo set  amigoEstadoActual = true where ";
+            String sql = "update Amigo set  amigoEstadoActual = true where ";
             for (Amigo amiguito : presentes) {
                 sql += " amigoCertificado = '" + amiguito.getAmigoCertificado() + "' or ";
             }
