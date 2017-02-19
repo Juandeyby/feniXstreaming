@@ -7,7 +7,10 @@ package GUI.Principal;
 
 import Bean.Amigo;
 import Bean.UsuarioLogueado;
+import GUI.Amigo.AgregarAmigo;
 import GUI.Canales.DespligueCanalesGUI;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 /**
@@ -37,8 +40,8 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jBCanales = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jBAmigos = new javax.swing.JButton();
+        jBCompartirDir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -52,9 +55,16 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText(" Amigos");
+        jBAmigos.setBackground(new java.awt.Color(198, 198, 167));
+        jBAmigos.setFont(new java.awt.Font("Utopia", 1, 18)); // NOI18N
+        jBAmigos.setText("Agregar Amigo");
+        jBAmigos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAmigosActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Compartir Directorio");
+        jBCompartirDir.setText("Compartir Directorio");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -62,23 +72,25 @@ public class Principal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
-                .addComponent(jBCanales)
-                .addGap(69, 69, 69)
-                .addComponent(jButton2)
-                .addGap(38, 38, 38)
-                .addComponent(jButton3)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addComponent(jBCanales, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addComponent(jBAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addComponent(jBCompartirDir)
+                .addGap(53, 53, 53))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jBCanales, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBCanales, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jBCompartirDir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -89,7 +101,7 @@ public class Principal extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
+            .addGap(0, 259, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -135,9 +147,16 @@ public class Principal extends javax.swing.JFrame {
     private void jBCanalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCanalesActionPerformed
         // TODO add your handling code here:
         DespligueCanalesGUI can = new DespligueCanalesGUI();
-      can.setMain(this);
+        can.setMain(this);
         can.estado(1);
     }//GEN-LAST:event_jBCanalesActionPerformed
+
+    private void jBAmigosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAmigosActionPerformed
+        // TODO add your handling code here:
+        AgregarAmigo addAmi = new AgregarAmigo();
+        addAmi.setMain(this);
+        addAmi.estado(1);
+    }//GEN-LAST:event_jBAmigosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,15 +188,18 @@ public class Principal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Principal().setVisible(true);
+                Principal p = new Principal();
+                p.estado(1);
+                p.setVisible(true);
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBAmigos;
     private javax.swing.JButton jBCanales;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jBCompartirDir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -191,12 +213,12 @@ public class Principal extends javax.swing.JFrame {
         this.usuario = usuario;
     }
 
- public void estado(int a ){
-     if (a==1){
-     
-         this.setVisible(true);
-     }
- 
+    public void estado(int a) {
+        if (a == 1) {
+            this.setVisible(true);
+            centrarPantalla();
+        }
+
  }
 
     public ArrayList<Amigo> getAmigosActivos() {
@@ -205,6 +227,13 @@ public class Principal extends javax.swing.JFrame {
 
     public void setAmigosActivos(ArrayList<Amigo> amigosActivos) {
         this.amigosActivos = amigosActivos;
+    }
+    
+    private void centrarPantalla() {
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension ventana = this.getSize();
+        this.setLocation((int) (pantalla.width - ventana.width) / 2, (int) (pantalla.height - ventana.height) / 2);
+
     }
 
 }

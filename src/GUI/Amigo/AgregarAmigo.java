@@ -5,16 +5,23 @@
  */
 package GUI.Amigo;
 
+import Bean.Generico;
+import GUI.Principal.Principal;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 /**
  *
  * @author USUARIO
  */
-public class AñadirAmigo extends javax.swing.JFrame {
+public class AgregarAmigo extends javax.swing.JFrame {
 
     /**
      * Creates new form AñadirAmigo
      */
-    public AñadirAmigo() {
+    private Principal main;
+
+    public AgregarAmigo() {
         initComponents();
     }
 
@@ -38,7 +45,7 @@ public class AñadirAmigo extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(255, 51, 51));
 
@@ -147,20 +154,21 @@ public class AñadirAmigo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AñadirAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AñadirAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AñadirAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AñadirAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AñadirAmigo().setVisible(true);
+                new AgregarAmigo().setVisible(true);
             }
         });
     }
@@ -177,4 +185,34 @@ public class AñadirAmigo extends javax.swing.JFrame {
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextPane jTextPane2;
     // End of variables declaration//GEN-END:variables
+
+    public void estado(int a) {
+
+        if (a == 1) {
+            this.setVisible(true);
+            centrarPantalla();
+
+//            String[] modelo = {"id ", "nombre"};
+//            String sql = "Select * from `Canal`  can  "
+//                    + "inner join `CanalAmigos` canUsuario on can.`IdCanal` = canUsuario.`IdCanal` "
+//                    + "inner join `amigo` amiguito on  canUsuario . `IdAmigo` = amiguito.`IdAmigo`  "
+//                    + " where amiguito.`AmigoEstadoActual`= 1 ";
+//            Generico.LLenarTabla(jTable1, modelo, sql);
+        }
+    }
+
+    public Principal getMain() {
+        return main;
+    }
+
+    public void setMain(Principal main) {
+        this.main = main;
+    }
+
+    private void centrarPantalla() {
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension ventana = this.getSize();
+        this.setLocation((int) (pantalla.width - ventana.width) / 2, (int) (pantalla.height - ventana.height) / 2);
+    }
+
 }
