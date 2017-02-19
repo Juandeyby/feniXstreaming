@@ -145,18 +145,24 @@ public class login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String usuName = jTUsuarioNombre.getText();
         String contra = jTPasword.getText();
-        if (usuario != null && usuario.getUsuario()!=null) {
+        if (usuario != null ) {
 
             try {
+
                 Registry registry = LocateRegistry.getRegistry();
                 TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
-                ArrayList<Amigo> presentes = testRemote.Login(usuName, contra);
+               usuario = new UsuarioLogueado(usuName, contra);
+
+                ArrayList<Amigo> presentes = testRemote.ImHere(usuario.getUsuario());
                 //Amigo.CambiarAmigos(presentes);
                 if (presentes == null) {
                     JOptionPane.showMessageDialog(null, "Datos Incorrectos");
                     return;
                 }
-                usuario.setUsuario(presentes.get(presentes.size() - 1));
+                for (Amigo amiguito : presentes ){
+                    System.out.println("soy el amiguito " + amiguito.getAmigoNombre() +" y estoy presente");
+                
+                }    
                 Principal prin = new Principal();
                 prin.setAmigosActivos(presentes);
                 prin.setUsuario(usuario);
