@@ -148,7 +148,6 @@ public class login extends javax.swing.JFrame {
         if (usuario != null ) {
 
             try {
-
                 Registry registry = LocateRegistry.getRegistry();
                 TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
                usuario = new UsuarioLogueado(usuName, contra);
