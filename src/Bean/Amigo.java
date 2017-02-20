@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -130,6 +131,55 @@ public class Amigo implements  Serializable{
  
  }      
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + this.idAmigo;
+        hash = 67 * hash + Objects.hashCode(this.AmigoNombre);
+        hash = 67 * hash + Objects.hashCode(this.AmigoIp);
+        hash = 67 * hash + Objects.hashCode(this.AmigoPuerto);
+        hash = 67 * hash + Objects.hashCode(this.AmigoCertificado);
+        hash = 67 * hash + Objects.hashCode(this.AmigoSobreNombre);
+        hash = 67 * hash + Objects.hashCode(this.AmigoLogueoName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Amigo other = (Amigo) obj;
+        if (this.idAmigo != other.idAmigo) {
+            return false;
+        }
+        if (!Objects.equals(this.AmigoNombre, other.AmigoNombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.AmigoIp, other.AmigoIp)) {
+            return false;
+        }
+        if (!Objects.equals(this.AmigoPuerto, other.AmigoPuerto)) {
+            return false;
+        }
+        if (!Objects.equals(this.AmigoCertificado, other.AmigoCertificado)) {
+            return false;
+        }
+        if (!Objects.equals(this.AmigoSobreNombre, other.AmigoSobreNombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.AmigoLogueoName, other.AmigoLogueoName)) {
+            return false;
+        }
+        return true;
+    }
+
     
     public void insertar() throws SQLException {
         //INSERT INTO `empresa`(`IdEmpresa`, `IdEmpresaGrupo`, `EmpRuc`, `EmpNom`, `EmpTel`, `EmpDir`, `EmpEstReg`)
@@ -140,5 +190,5 @@ public class Amigo implements  Serializable{
         sent.executeUpdate(sentIn);
         System.out.println("guardado");
     }
-
+    
 }

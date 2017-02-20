@@ -23,7 +23,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-class ServerPeticionesEnrutamiento implements TestRemote {
+public class ServerPeticionesEnrutamiento implements TestRemote {
    private ArrayList<Amigo> amigosPresentes = new ArrayList<Amigo>();  
     @Override
     public dota sayHello(String name) throws RemoteException {

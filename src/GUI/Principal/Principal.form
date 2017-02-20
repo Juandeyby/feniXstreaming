@@ -133,8 +133,11 @@
             </Component>
             <Component class="javax.swing.JButton" name="jBCompartirDir">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Compartir Directorio"/>
+                <Property name="text" type="java.lang.String" value="TransmitirVideo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBCompartirDirActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

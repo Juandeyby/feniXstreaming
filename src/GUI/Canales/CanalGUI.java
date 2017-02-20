@@ -5,6 +5,9 @@
  */
 package GUI.Canales;
 
+import GUI.Principal.Principal;
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author USUARIO
@@ -14,7 +17,9 @@ public class CanalGUI extends javax.swing.JFrame {
     /**
      * Creates new form Canal
      */
+    private Principal  main;
     public CanalGUI() {
+        iniMio();
         initComponents();
     }
 
@@ -162,7 +167,11 @@ public class CanalGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public  void iniMio(){
+        llenarVideos();
+    
+    
+    }
     /**
      * @param args the command line arguments
      */
@@ -219,5 +228,26 @@ public class CanalGUI extends javax.swing.JFrame {
          }
      
      }
+
+    public Principal getMain() {
+        return main;
+    }
+
+    public void setMain(Principal main) {
+        this.main = main;
+    }
+
+    private void llenarVideos() {
+        
+   DefaultListModel model = new DefaultListModel();
+
+       model.addElement(HEIGHT);
+
+        /*
+         Borrando de jListNoEnviado
+         */
+
+        jList1.setModel(model);    
+    }
 
 }

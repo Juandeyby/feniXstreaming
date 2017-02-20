@@ -64,7 +64,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jBCompartirDir.setText("Compartir Directorio");
+        jBCompartirDir.setText("TransmitirVideo");
+        jBCompartirDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCompartirDirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -156,6 +161,11 @@ public class Principal extends javax.swing.JFrame {
         AgregarAmigo addAmi = new AgregarAmigo(this);
         addAmi.estado(1);
     }//GEN-LAST:event_jBAmigosActionPerformed
+
+    private void jBCompartirDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCompartirDirActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jBCompartirDirActionPerformed
 
     /**
      * @param args the command line arguments
