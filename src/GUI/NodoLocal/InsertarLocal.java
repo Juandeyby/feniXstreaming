@@ -6,6 +6,7 @@
 package GUI.NodoLocal;
 
 import Bean.AmigoLocal;
+import GUI.Principal.login;
 import Utilitarios.Encriptacion;
 import Utilitarios.Generico;
 import java.net.InetAddress;
@@ -18,11 +19,17 @@ import java.util.logging.Logger;
  *
  * @author USUARIO
  */
+
 public class InsertarLocal extends javax.swing.JFrame {
 
     /**
      * Creates new form InsertarLocal
      */
+     private login papa; 
+     private static InsertarLocal privado = new InsertarLocal();
+     public static InsertarLocal getInstance(){
+     return privado;
+     }
     public InsertarLocal() {
         initComponents();
     }
@@ -47,6 +54,7 @@ public class InsertarLocal extends javax.swing.JFrame {
         jtContra = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +98,13 @@ public class InsertarLocal extends javax.swing.JFrame {
 
         jLabel5.setText("INGRESAR USUARIO");
 
+        jButton2.setText("ATRAS");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -118,6 +133,8 @@ public class InsertarLocal extends javax.swing.JFrame {
                 .addContainerGap(298, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(38, 38, 38)
                         .addComponent(jButton1)
                         .addGap(101, 101, 101))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -146,7 +163,9 @@ public class InsertarLocal extends javax.swing.JFrame {
                     .addComponent(jtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addGap(30, 30, 30))
         );
 
@@ -200,15 +219,15 @@ public class InsertarLocal extends javax.swing.JFrame {
             Certificado= Encriptacion.Encriptar(Certificado);
             
             AmigoLocal yo = new AmigoLocal();
-            yo.setAmigoCertificado(Certificado);
-            yo.setAmigoIp(host);
-            yo.setAmigoLogueoName(login);
-            yo.setAmigoNombre(nombre);
-            yo.setAmigoPassword(contra);
-            yo.setAmigoPuerto(puerto);
-            yo.setAmigoSobreNombre(apodo);
-            yo.setAmigoCertificado(Certificado);
-            yo.setIdAmigo(Generico.GetNewId("datosnodoactual"));
+            yo.setAmigoCertificado("'"+Certificado+"'");
+            yo.setAmigoIp("'"+host+"'");
+            yo.setAmigoLogueoName("'"+login+"'");
+            yo.setAmigoNombre("'"+nombre+"'");
+            yo.setAmigoPassword("'"+contra+"'");
+            yo.setAmigoPuerto("'"+puerto+"'");
+            yo.setAmigoSobreNombre("'"+apodo+"'");
+            yo.setAmigoCertificado("'"+Certificado+"'");
+            yo.setIdAmigo(Generico.GetNewId("datosnodoactual","IdAmigo"));
             yo.insertar();
         } catch (UnknownHostException ex) {
             Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
@@ -218,6 +237,11 @@ public class InsertarLocal extends javax.swing.JFrame {
          
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        estado(2);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,6 +280,7 @@ public class InsertarLocal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -267,5 +292,34 @@ public class InsertarLocal extends javax.swing.JFrame {
     private javax.swing.JPasswordField jtContra;
     private javax.swing.JTextField jtUsuarioLogin;
     // End of variables declaration//GEN-END:variables
+ public  void estado (int a ){
+ 
+   if (a==1){
+   
+   
+   this.setVisible(true);
+   
+   }
+  if(a ==2){
+            papa.setVisible(true);
 
+            this.setVisible(false);
+  }
+ }
+
+    public login getPapa() {
+        return papa;
+    }
+
+    public void setPapa(login papa) {
+        this.papa = papa;
+    }
+
+    public void limpiar() {
+        jTApodo.setText("");
+        jTNombrePila.setText("");
+        jtContra.setText("");
+        jtUsuarioLogin.setText("");
+    }
+ 
 }

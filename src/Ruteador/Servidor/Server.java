@@ -12,5 +12,6 @@ public class Server {
         Remote stub = UnicastRemoteObject.exportObject(new ServerPeticionesEnrutamiento(), 0);
         Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
         registry.bind("Enrutador", stub);
+        System.out.println("se llama al server y esta corriendo");
     }
 }

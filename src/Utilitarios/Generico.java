@@ -75,13 +75,13 @@ public class Generico {
         return desu;
     }
 
-    public static int GetNewId(String tabla) {
+    public static int GetNewId(String tabla ,String  dato) {
 
         try {
-            String sql = "SELECT * \n"
+            String sql = "SELECT "+dato+" \n"
                     + "FROM " + tabla + " \n"
-                    + "WHERE id" + tabla + " = (\n"
-                    + "    SELECT max(id" + tabla + ") FROM table\n"
+                    + "WHERE " + dato + " = (\n"
+                    + "    SELECT max(" + dato + ") FROM "+tabla+"\n"
                     + "    )";
             int retorno = 0;
             Statement sent;

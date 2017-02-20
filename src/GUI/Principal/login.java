@@ -8,6 +8,7 @@ package GUI.Principal;
 import Bean.Amigo;
 import Bean.UsuarioLogueado;
 import static Bean.UsuarioLogueado.cn;
+import GUI.NodoLocal.InsertarLocal;
 import Ruteador.Servidor.TestRemote;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
@@ -52,6 +53,7 @@ public class login extends javax.swing.JFrame {
         jBLogin = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jBLogin1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,6 +80,13 @@ public class login extends javax.swing.JFrame {
 
         jLabel3.setText("LOGIN ");
 
+        jBLogin1.setText("NUEVO USUARIO");
+        jBLogin1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBLogin1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -94,14 +103,17 @@ public class login extends javax.swing.JFrame {
                             .addComponent(jTUsuarioNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                             .addComponent(jTPasword)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addComponent(jBLogin)
-                        .addGap(46, 46, 46)
-                        .addComponent(jButton2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(166, 166, 166)
                         .addComponent(jLabel3)))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(jBLogin1)
+                .addGap(34, 34, 34)
+                .addComponent(jBLogin)
+                .addGap(37, 37, 37)
+                .addComponent(jButton2)
+                .addGap(57, 57, 57))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,7 +131,8 @@ public class login extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBLogin)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jBLogin1))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
@@ -151,13 +164,17 @@ public class login extends javax.swing.JFrame {
                 Registry registry = LocateRegistry.getRegistry();
                 TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
                usuario = new UsuarioLogueado(usuName, contra);
-
+                if(usuario.getUsuario()==null){
+                    
+                    JOptionPane.showMessageDialog(null, "Nancy causa te weveaste de id o contra");
+                    return;}
                 ArrayList<Amigo> presentes = testRemote.ImHere(usuario.getUsuario());
                 //Amigo.CambiarAmigos(presentes);
                 if (presentes == null) {
                     JOptionPane.showMessageDialog(null, "Datos Incorrectos");
                     return;
                 }
+                System.err.println(usuario.getUsuario().getAmigoNombre());
                 for (Amigo amiguito : presentes ){
                     System.out.println("soy el amiguito " + amiguito.getAmigoNombre() +" y estoy presente");
                 
@@ -174,6 +191,15 @@ public class login extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jBLoginActionPerformed
+
+    private void jBLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLogin1ActionPerformed
+        // TODO add your handling code here:
+        InsertarLocal local = InsertarLocal.getInstance();
+        local.estado(1);
+        this.setVisible(false);
+        local.limpiar();
+        local.setPapa(this);
+    }//GEN-LAST:event_jBLogin1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,6 +238,7 @@ public class login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBLogin;
+    private javax.swing.JButton jBLogin1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
