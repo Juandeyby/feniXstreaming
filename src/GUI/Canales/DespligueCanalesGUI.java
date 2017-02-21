@@ -195,7 +195,7 @@ public class DespligueCanalesGUI extends javax.swing.JFrame {
           System.err.println("maria hi ");
            //   int id = Integer.parseInt((String) jTable1.getModel().getValueAt(jTable1.getSelectedRow(),0 ));
           this.setVisible(false);
-          ca.setMain(main);
+          ca.setPapa(main);
           ca.estado(1);
           
           

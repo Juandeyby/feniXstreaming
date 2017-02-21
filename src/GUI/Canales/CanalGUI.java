@@ -14,6 +14,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -254,10 +256,18 @@ public class CanalGUI extends javax.swing.JFrame {
         
    DefaultListModel model = new DefaultListModel();
 
-       model.addElement(HEIGHT);
        ArrayList<Amigo> usuariosConectados = papa.getUsuariosConectados();
+      int a = 0 ;
        for (Amigo amiguito:usuariosConectados){
+       try {
            Video  videito =QueEstasTransmitiendo(amiguito);
+           model.add(a,videito);
+           a++;
+       } catch (RemoteException ex) {
+           Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (NotBoundException ex) {
+           Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+       }
             
        
        }
@@ -273,7 +283,7 @@ public class CanalGUI extends javax.swing.JFrame {
     private Video QueEstasTransmitiendo(Amigo amiguito) throws RemoteException, NotBoundException {
             Registry registry = LocateRegistry.getRegistry();
             TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup("Video-"+amiguito.getAmigoIp());
-            Video video =testRemote.sayHello("JavaMexico");
+            Video video =testRemote.OECTmDimeTuVideo();
             return video ;
     
     

@@ -12,9 +12,19 @@ import GUI.Canales.DespligueCanalesGUI;
 import GUI.TransmitirVideo.TrasmitirVideo;
 import Peer2Peer.Point.ClienteP2P;
 import Peer2Peer.Point.ServerPeticionesP2P;
+import Ruteador.Servidor.ServerPeticionesEnrutamiento;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.midi.Transmitter;
 
 /**
@@ -29,6 +39,7 @@ public class Principal extends javax.swing.JFrame {
     private UsuarioLogueado usuario ;
     private ArrayList<Amigo> usuariosConectados ;
     private ClienteP2P serverPoint ; 
+    private ServerPeticionesP2P serverPeticiones;
     public Principal() {
         
         initComponents();
@@ -36,8 +47,20 @@ public class Principal extends javax.swing.JFrame {
     }
     public void iniMio(){
     
-     serverPoint = new ClienteP2P(this);
-     serverPoint.run();
+        try {
+            serverPoint = new ClienteP2P(this);
+            serverPoint.run();
+            serverPeticiones = new ServerPeticionesP2P();
+            Remote stub = UnicastRemoteObject.exportObject(serverPeticiones, 0);
+            Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT+4000);
+            String  nombreServer = usuario.getAmigoNombre()+"-"+usuario.getAmigoIp();
+            registry.bind(nombreServer, stub);
+            System.out.println("se llama al server del cliente y esta corriendo");
+        } catch (RemoteException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (AlreadyBoundException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -264,6 +287,14 @@ public class Principal extends javax.swing.JFrame {
         Dimension ventana = this.getSize();
         this.setLocation((int) (pantalla.width - ventana.width) / 2, (int) (pantalla.height - ventana.height) / 2);
 
+    }
+
+    public ServerPeticionesP2P getServerPeticiones() {
+        return serverPeticiones;
+    }
+
+    public void setServerPeticiones(ServerPeticionesP2P serverPeticiones) {
+        this.serverPeticiones = serverPeticiones;
     }
 
 }

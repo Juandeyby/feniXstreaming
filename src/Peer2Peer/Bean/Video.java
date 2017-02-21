@@ -6,12 +6,13 @@
 package Peer2Peer.Bean;
 
 import Bean.Amigo;
+import java.io.Serializable;
 
 /**
  *
  * @author USUARIO
  */
-public class Video {
+public class Video  implements Serializable{
     private String Descripcion ;
     private Amigo usuarioDueño ;
     private int porto=5555;

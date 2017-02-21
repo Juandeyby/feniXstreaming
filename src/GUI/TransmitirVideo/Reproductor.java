@@ -30,10 +30,7 @@ public class Reproductor extends javax.swing.JFrame {
 
     private EmbeddedMediaPlayerComponent player;
     private File file;
-    static{
-        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files\\VideoLAN\\VLC\\");
-        Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
-    }
+  
     //bandera para controlar la reproduccion de video y el cambio en el avance de video
     private boolean band = true;
     
@@ -359,6 +356,7 @@ public class Reproductor extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+                new NativeDiscovery().discover();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

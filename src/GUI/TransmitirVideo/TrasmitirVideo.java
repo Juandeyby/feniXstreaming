@@ -261,7 +261,7 @@ public class TrasmitirVideo extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
        Video videoito= new Video(papa.getUsuario(), jTRuta.getText()); 
-        papa.getServerPoint().setVideito(videoito);
+        papa.getServerPeticiones().setVidoeoUnico(videoito);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPauseActionPerformed

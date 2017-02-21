@@ -4,7 +4,7 @@ package Peer2Peer.Point;
 import Ruteador.Servidor.*;
 import Bean.Amigo;
 import Bean.UsuarioLogueado;
-import Bean.Video;
+import Peer2Peer.Bean.Video;
 import Ruteador.Bean.dota;
 import Ruteador.Bean.UsuarioConneccion;
 import java.rmi.Remote;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class ServerPeticionesP2P implements TestRemoteP2P {
    private ArrayList<Video> videos = new ArrayList<Video>();  
-
+   private Video VidoeoUnico ;
     @Override
     public dota sayHello(String name) throws RemoteException {
         return new dota();
@@ -40,10 +40,20 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
     }
 
     @Override
-    public ArrayList<Video> OECTmDimeTuVideo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-  
+    public Video OECTmDimeTuVideo() {
+
+        return VidoeoUnico;
         
+    }
+
+    public Video getVidoeoUnico() {
+        return VidoeoUnico;
+    }
+
+    public void setVidoeoUnico(Video VidoeoUnico) {
+        this.VidoeoUnico = VidoeoUnico;
+    }
+
+  
    
 }
