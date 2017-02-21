@@ -10,6 +10,7 @@ import Bean.UsuarioLogueado;
 import static Bean.UsuarioLogueado.cn;
 import GUI.NodoLocal.InsertarLocal;
 import Ruteador.Servidor.TestRemote;
+import java.awt.event.KeyEvent;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -32,7 +33,7 @@ public class login extends javax.swing.JFrame {
     /**
      * Creates new form login
      */
-    private UsuarioLogueado usuario = new UsuarioLogueado() ;
+    private UsuarioLogueado usuario = new UsuarioLogueado();
     public login() {
         initComponents();
     }
@@ -69,6 +70,12 @@ public class login extends javax.swing.JFrame {
         jLabel1.setText("Usuario");
 
         jLabel2.setText("Contraseña ");
+
+        jTPasword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTPaswordKeyPressed(evt);
+            }
+        });
 
         jBLogin.setText("ENTRAR");
         jBLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +172,7 @@ public class login extends javax.swing.JFrame {
                 Registry registry = LocateRegistry.getRegistry();
                 TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
                usuario = new UsuarioLogueado(usuName, contra);
-                if(usuario==null){
+                if(usuario.getAmigoIp() == null){
                     
                     JOptionPane.showMessageDialog(null, "Nancy causa te weveaste de id o contra");
                     return;}
@@ -201,6 +208,12 @@ public class login extends javax.swing.JFrame {
         local.limpiar();
         local.setPapa(this);
     }//GEN-LAST:event_jBLogin1ActionPerformed
+
+    private void jTPaswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTPaswordKeyPressed
+        // TODO add your handling code here:
+         if(evt.getKeyCode()==KeyEvent.VK_ENTER)
+         jBLoginActionPerformed(null);
+    }//GEN-LAST:event_jTPaswordKeyPressed
 
     /**
      * @param args the command line arguments
