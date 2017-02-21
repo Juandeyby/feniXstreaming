@@ -64,9 +64,11 @@ public class ServerP2P extends Thread{
             TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
              ArrayList <Amigo> presente =testRemote.WhoIsThere();
              papa.setUsuariosConectados(presente);
-             System.out.println(videito);
+            // System.out.println(videito);
              if (videito ==null)return ;
-             if (presente.size()>usuariosConectados.size()){
+               int a =presente.size();
+               int b = usuariosConectados.size();
+             if (a>b){
                  for(int i = usuariosConectados.size(); i < presente.size();i++){
                     VideoStreaming stream = new VideoStreaming(videito, presente.get(i));
                     stream.run();

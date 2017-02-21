@@ -214,7 +214,7 @@ public class InsertarLocal extends javax.swing.JFrame {
                     +"AmigoSobreNombre:"+apodo+"%%"
                     +"AmigoLogueoName:"+login+"%%"
                  + "AmigoIP:"+host+"%%"
-                        +"AmigoPuerto"+puerto+"%%"
+                        +"AmigoPuerto:"+puerto+"%%"
                     ;
             Certificado= Encriptacion.Encriptar(Certificado);
             
