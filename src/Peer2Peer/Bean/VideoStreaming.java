@@ -22,6 +22,7 @@ public class VideoStreaming extends Thread{
     public VideoStreaming(Video videito1,Amigo receptor1){
         videito = videito1;
         receptor=receptor1;
+        if(videito!=null&&videito.getMrlLocal()!=null)
         reproducir();
    
    }

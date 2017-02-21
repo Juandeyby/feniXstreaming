@@ -151,6 +151,11 @@ public class TrasmitirVideo extends javax.swing.JFrame {
         btnPlay.setText("Play");
 
         btnPause.setText("Pause");
+        btnPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPauseActionPerformed(evt);
+            }
+        });
 
         btnStop.setText("Stop");
 
@@ -258,6 +263,15 @@ public class TrasmitirVideo extends javax.swing.JFrame {
        Video videoito= new Video(papa.getUsuario(), jTRuta.getText()); 
         papa.getServerPoint().setVideito(videoito);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPauseActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btnPauseActionPerformed
 
     /**
      * @param args the command line arguments
