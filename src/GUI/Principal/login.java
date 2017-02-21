@@ -164,23 +164,23 @@ public class login extends javax.swing.JFrame {
                 Registry registry = LocateRegistry.getRegistry();
                 TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
                usuario = new UsuarioLogueado(usuName, contra);
-                if(usuario.getUsuario()==null){
+                if(usuario==null){
                     
                     JOptionPane.showMessageDialog(null, "Nancy causa te weveaste de id o contra");
                     return;}
-                ArrayList<Amigo> presentes = testRemote.ImHere(usuario.getUsuario());
+                ArrayList<Amigo> presentes = testRemote.ImHere(usuario);
                 //Amigo.CambiarAmigos(presentes);
                 if (presentes == null) {
                     JOptionPane.showMessageDialog(null, "Datos Incorrectos");
                     return;
                 }
-                System.err.println(usuario.getUsuario().getAmigoNombre());
+                System.err.println(usuario.getAmigoNombre());
                 for (Amigo amiguito : presentes ){
                     System.out.println("soy el amiguito " + amiguito.getAmigoNombre() +" y estoy presente");
                 
                 }    
                 Principal prin = new Principal();
-                prin.setAmigosActivos(presentes);
+                prin.setUsuariosConectados(presentes);
                 prin.setUsuario(usuario);
                 prin.estado(1);
                 this.setVisible(false);

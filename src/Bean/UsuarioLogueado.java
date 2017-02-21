@@ -6,6 +6,7 @@
 package Bean;
 
 import Local.Conexion.Mysql;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -16,10 +17,9 @@ import sun.security.util.Password;
  *
  * @author USUARIO
  */
-public class UsuarioLogueado {
+public class UsuarioLogueado extends Amigo implements  Serializable{
 
     private ArrayList<Canal> canales = new ArrayList<Canal>();
-    private AmigoLocal usuario;
     public static Connection cn = Mysql.getConection();
     public UsuarioLogueado(){
     
@@ -38,15 +38,14 @@ public class UsuarioLogueado {
             int a = 0;
             while (rs.next()) {
                 if (a == 0) {
-                    usuario = new AmigoLocal();
-                    usuario.setAmigoCertificado(rs.getString("AmigoCertificado"));
-                    usuario.setAmigoIp(rs.getString("AmigoIp"));
-                    usuario.setAmigoLogueoName(rs.getString("AmigoLogueoName"));
-                    usuario.setAmigoNombre(rs.getString("AmigoNombre"));
-                    usuario.setAmigoPassword(rs.getString("AmigoPassword"));
-                    usuario.setAmigoPuerto(rs.getString("AmigoPuerto"));
-                    usuario.setAmigoSobreNombre(rs.getString("AmigoSobreNombre"));
-                    usuario.setIdAmigo(rs.getInt("IdAmigo"));
+                    setAmigoCertificado(rs.getString("AmigoCertificado"));
+                    setAmigoIp(rs.getString("AmigoIp"));
+                    setAmigoLogueoName(rs.getString("AmigoLogueoName"));
+                    setAmigoNombre(rs.getString("AmigoNombre"));
+                    setAmigoPassword(rs.getString("AmigoPassword"));
+                    setAmigoPuerto(rs.getString("AmigoPuerto"));
+                    setAmigoSobreNombre(rs.getString("AmigoSobreNombre"));
+                    setIdAmigo(rs.getInt("IdAmigo"));
 
                 }
 
@@ -71,12 +70,6 @@ public class UsuarioLogueado {
         this.canales = canales;
     }
 
-    public Amigo getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(AmigoLocal usuario) {
-        this.usuario = usuario;
-    }
+  
 
 }

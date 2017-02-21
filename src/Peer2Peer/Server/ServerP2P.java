@@ -1,6 +1,13 @@
 package Peer2Peer.Server;
+/*
 
+En este planteo lo que hacemos es reproducir a todos los amigos  sin importar si ellos quieren o no  el strean
+
+
+*/
 import Bean.Amigo;
+import GUI.Principal.Principal;
+import Peer2Peer.Bean.Video;
 import Peer2Peer.Bean.VideoStreaming;
 import Ruteador.Servidor.*;
 import java.rmi.AlreadyBoundException;
@@ -16,22 +23,21 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class ServerP2P extends Thread{
-  
+    private Video videito;
+    private Principal papa;
     private static ServerP2P  instance ;
-    private  ArrayList <Amigo>  usuarios = new ArrayList<Amigo>();
+    private  ArrayList <Amigo>  usuariosConectados  = new ArrayList<Amigo>();
     private  Map<Amigo,VideoStreaming> videos= new HashMap<>();
     public static ServerP2P getInstance(){
      if (instance==null)instance= new ServerP2P();
         return instance;
     }
     private ServerP2P (){
-        try {
-            main(null);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ServerP2P.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AlreadyBoundException ex) {
-            Logger.getLogger(ServerP2P.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      
+    }
+    public ServerP2P(Principal papa1){
+        papa=papa1;
+        
     }
     public void run() {
         try {
@@ -57,15 +63,55 @@ public class ServerP2P extends Thread{
             Registry registry = LocateRegistry.getRegistry();
             TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
              ArrayList <Amigo> presente =testRemote.WhoIsThere();
-             if (presente.size()>usuarios.size()){
-                 for(int i = usuarios.size(); i < presente.size();i++){
-                    VideoStreaming stream = new VideoStreaming();
+             papa.setUsuariosConectados(presente);
+             System.out.println(videito);
+             if (videito ==null)return ;
+             if (presente.size()>usuariosConectados.size()){
+                 for(int i = usuariosConectados.size(); i < presente.size();i++){
+                    VideoStreaming stream = new VideoStreaming(videito, presente.get(i));
                     stream.run();
                     videos.put(presente.get(i),stream);}
              }
         } catch (RemoteException ex) {
             Logger.getLogger(ServerP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
+    }
+
+    public Video getVideito() {
+        return videito;
+    }
+
+    public void setVideito(Video videito) {
+        this.videito = videito;
+    }
+
+    public ArrayList<Amigo> getUsuariosConectados() {
+        return usuariosConectados;
+    }
+
+    public void setUsuariosConectados(ArrayList<Amigo> usuariosConectados) {
+        this.usuariosConectados = usuariosConectados;
+    }
+
+    public Map<Amigo, VideoStreaming> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(Map<Amigo, VideoStreaming> videos) {
+        this.videos = videos;
+    }
+
+    public Principal getPapa() {
+        return papa;
+    }
+
+    public void setPapa(Principal papa) {
+        this.papa = papa;
+    }
+    public  void ReiniciarStreaming(){
+        
+    
     
     }
 }

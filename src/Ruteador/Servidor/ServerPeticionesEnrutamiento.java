@@ -45,10 +45,10 @@ public class ServerPeticionesEnrutamiento implements TestRemote {
     @Override
     public ArrayList<Amigo> Login(String user, String password) throws RemoteException {
         UsuarioLogueado usuario = new UsuarioLogueado(user, password);
-            if (usuario.getUsuario()==null){
+            if (usuario==null){
             return null;
             }
-                ArrayList<Amigo> presentes = ImHere(usuario.getUsuario());
+                ArrayList<Amigo> presentes = ImHere(usuario);
                
         return presentes;
     }

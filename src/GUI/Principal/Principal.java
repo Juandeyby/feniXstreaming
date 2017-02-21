@@ -9,9 +9,13 @@ import Bean.Amigo;
 import Bean.UsuarioLogueado;
 import GUI.Amigo.AgregarAmigo;
 import GUI.Canales.DespligueCanalesGUI;
+import GUI.TransmitirVideo.TrasmitirVideo;
+import Peer2Peer.Server.ServerP2P;
+import Peer2Peer.Server.ServerPeticionesP2P;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import javax.sound.midi.Transmitter;
 
 /**
  *
@@ -23,11 +27,18 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     private UsuarioLogueado usuario ;
-    private ArrayList<Amigo> amigosActivos ;
+    private ArrayList<Amigo> usuariosConectados ;
+    private ServerP2P serverPoint ; 
     public Principal() {
+        
         initComponents();
+        iniMio();
     }
-
+    public void iniMio(){
+    
+     serverPoint = new ServerP2P(this);
+     serverPoint.run();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -164,7 +175,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jBCompartirDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCompartirDirActionPerformed
         // TODO add your handling code here:
-        
+        TrasmitirVideo trans = TrasmitirVideo.getInstace(this);
+        trans.setVisible(true);
     }//GEN-LAST:event_jBCompartirDirActionPerformed
 
     /**
@@ -230,14 +242,23 @@ public class Principal extends javax.swing.JFrame {
 
  }
 
-    public ArrayList<Amigo> getAmigosActivos() {
-        return amigosActivos;
+    public ArrayList<Amigo> getUsuariosConectados() {
+        return usuariosConectados;
     }
 
-    public void setAmigosActivos(ArrayList<Amigo> amigosActivos) {
-        this.amigosActivos = amigosActivos;
+    public void setUsuariosConectados(ArrayList<Amigo> usuariosConectados) {
+        this.usuariosConectados = usuariosConectados;
     }
-    
+
+    public ServerP2P getServerPoint() {
+        return serverPoint;
+    }
+
+    public void setServerPoint(ServerP2P serverPoint) {
+        this.serverPoint = serverPoint;
+    }
+
+   
     private void centrarPantalla() {
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension ventana = this.getSize();
