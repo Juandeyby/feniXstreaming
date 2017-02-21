@@ -1,4 +1,4 @@
-package Peer2Peer.Server;
+package Peer2Peer.Point;
 
 
 import Ruteador.Servidor.*;
@@ -37,6 +37,11 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
     public ArrayList<Video> tellMeUrVideos() {
 
         return videos;
+    }
+
+    @Override
+    public ArrayList<Video> OECTmDimeTuVideo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
   
         

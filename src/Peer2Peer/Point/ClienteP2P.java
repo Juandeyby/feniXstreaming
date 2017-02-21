@@ -1,4 +1,4 @@
-package Peer2Peer.Server;
+package Peer2Peer.Point;
 /*
 
 En este planteo lo que hacemos es reproducir a todos los amigos  sin importar si ellos quieren o no  el strean
@@ -22,20 +22,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-public class ServerP2P extends Thread{
+public class ClienteP2P extends Thread{
     private Video videito;
     private Principal papa;
-    private static ServerP2P  instance ;
+    private static ClienteP2P  instance ;
     private  ArrayList <Amigo>  usuariosConectados  = new ArrayList<Amigo>();
     private  Map<Amigo,VideoStreaming> videos= new HashMap<>();
-    public static ServerP2P getInstance(){
-     if (instance==null)instance= new ServerP2P();
+    public static ClienteP2P getInstance(){
+     if (instance==null)instance= new ClienteP2P();
         return instance;
     }
-    private ServerP2P (){
+    private ClienteP2P (){
       
     }
-    public ServerP2P(Principal papa1){
+    public ClienteP2P(Principal papa1){
         papa=papa1;
         
     }
@@ -45,10 +45,10 @@ public class ServerP2P extends Thread{
             try {
                 iniciarEscuchaServer();
             } catch (NotBoundException ex) {
-                Logger.getLogger(ServerP2P.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(ServerP2P.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
 		
 	}
@@ -82,7 +82,7 @@ public class ServerP2P extends Thread{
                     videos.put(presente.get(i),stream);}
              }
         } catch (RemoteException ex) {
-            Logger.getLogger(ServerP2P.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
     
     }

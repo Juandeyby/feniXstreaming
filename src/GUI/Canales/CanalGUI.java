@@ -5,7 +5,15 @@
  */
 package GUI.Canales;
 
+import Bean.Amigo;
 import GUI.Principal.Principal;
+import Peer2Peer.Bean.Video;
+import Peer2Peer.Point.TestRemoteP2P;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
 /**
@@ -17,10 +25,14 @@ public class CanalGUI extends javax.swing.JFrame {
     /**
      * Creates new form Canal
      */
-    private Principal  main;
+    private Principal  papa;
     public CanalGUI() {
-        iniMio();
+      
         initComponents();
+          iniMio();
+        
+        
+        
     }
 
     /**
@@ -131,10 +143,10 @@ public class CanalGUI extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(125, 125, 125)
                 .addComponent(jLabel1)
-                .addGap(35, 35, 35))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,25 +241,42 @@ public class CanalGUI extends javax.swing.JFrame {
      
      }
 
-    public Principal getMain() {
-        return main;
+    public Principal getPapa() {
+        return papa;
     }
 
-    public void setMain(Principal main) {
-        this.main = main;
+    public void setPapa(Principal papa) {
+        this.papa = papa;
     }
 
+    
     private void llenarVideos() {
         
    DefaultListModel model = new DefaultListModel();
 
        model.addElement(HEIGHT);
-
-        /*
+       ArrayList<Amigo> usuariosConectados = papa.getUsuariosConectados();
+       for (Amigo amiguito:usuariosConectados){
+           Video  videito =QueEstasTransmitiendo(amiguito);
+            
+       
+       }
+       
+       
+       /*
          Borrando de jListNoEnviado
          */
 
         jList1.setModel(model);    
+    }
+
+    private Video QueEstasTransmitiendo(Amigo amiguito) throws RemoteException, NotBoundException {
+            Registry registry = LocateRegistry.getRegistry();
+            TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup("Video-"+amiguito.getAmigoIp());
+            Video video =testRemote.sayHello("JavaMexico");
+            return video ;
+    
+    
     }
 
 }

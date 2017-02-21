@@ -10,8 +10,8 @@ import Bean.UsuarioLogueado;
 import GUI.Amigo.AgregarAmigo;
 import GUI.Canales.DespligueCanalesGUI;
 import GUI.TransmitirVideo.TrasmitirVideo;
-import Peer2Peer.Server.ServerP2P;
-import Peer2Peer.Server.ServerPeticionesP2P;
+import Peer2Peer.Point.ClienteP2P;
+import Peer2Peer.Point.ServerPeticionesP2P;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class Principal extends javax.swing.JFrame {
      */
     private UsuarioLogueado usuario ;
     private ArrayList<Amigo> usuariosConectados ;
-    private ServerP2P serverPoint ; 
+    private ClienteP2P serverPoint ; 
     public Principal() {
         
         initComponents();
@@ -36,7 +36,7 @@ public class Principal extends javax.swing.JFrame {
     }
     public void iniMio(){
     
-     serverPoint = new ServerP2P(this);
+     serverPoint = new ClienteP2P(this);
      serverPoint.run();
     }
     /**
@@ -250,11 +250,11 @@ public class Principal extends javax.swing.JFrame {
         this.usuariosConectados = usuariosConectados;
     }
 
-    public ServerP2P getServerPoint() {
+    public ClienteP2P getServerPoint() {
         return serverPoint;
     }
 
-    public void setServerPoint(ServerP2P serverPoint) {
+    public void setServerPoint(ClienteP2P serverPoint) {
         this.serverPoint = serverPoint;
     }
 
