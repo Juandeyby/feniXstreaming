@@ -80,6 +80,11 @@ public class AgregarAmigo extends javax.swing.JFrame {
         jLabel3.setText("CERTIFICADO PROPIO");
 
         jBanterior.setText("ANTERIOR");
+        jBanterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBanteriorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -176,6 +181,11 @@ public class AgregarAmigo extends javax.swing.JFrame {
             Logger.getLogger(AgregarAmigo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jBconfirmarActionPerformed
+
+    private void jBanteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBanteriorActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jBanteriorActionPerformed
 
     /**
      * @param args the command line arguments

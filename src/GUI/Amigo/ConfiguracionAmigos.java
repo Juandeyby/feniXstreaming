@@ -6,8 +6,20 @@
 package GUI.Amigo;
 
 import GUI.Principal.Principal;
+import Local.Conexion.Mysql;
+import Peer2Peer.Point.TestRemoteP2P;
+import Ruteador.Servidor.TestRemote;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,9 +28,10 @@ import java.awt.Toolkit;
 public class ConfiguracionAmigos extends javax.swing.JFrame {
 
     private Principal main;
-    
+
     /**
      * Creates new form ConfiguracionAmigos
+     *
      * @param datosDesencriptados
      */
     public ConfiguracionAmigos(String datosDesencriptados) {
@@ -53,8 +66,8 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLapodo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jBanterior = new javax.swing.JButton();
+        jBterminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -180,12 +193,17 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
-        jButton1.setText("Anterior");
-
-        jButton2.setText("Terminar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jBanterior.setText("Anterior");
+        jBanterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jBanteriorActionPerformed(evt);
+            }
+        });
+
+        jBterminar.setText("Terminar");
+        jBterminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBterminarActionPerformed(evt);
             }
         });
 
@@ -195,9 +213,9 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(222, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBanterior, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBterminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -206,9 +224,9 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jBterminar)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBanterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -238,11 +256,32 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jBterminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBterminarActionPerformed
+        try {
+            // TODO add your handling code here:
+            String ipAmigo = jLdir_ip.getText();
+            String puertoAmigo = jLpuerto.getText();
+
+            Registry registry = LocateRegistry.getRegistry(ipAmigo, Integer.parseInt(puertoAmigo));
+            String nombreServer = " rmi://" + ipAmigo + ":" + puertoAmigo + "/server";
+            System.out.println(nombreServer);
+            TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
+            if(testRemote.verificaAmistad(main.getUsuario().getAmigoCertificado()) == null){
+                insertarAmigoLocal("Conocido");
+            }else{
+                insertarAmigoLocal("Amigo");
+            }
+            
+        } catch (RemoteException | NotBoundException ex) {
+            Logger.getLogger(ConfiguracionAmigos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jBterminarActionPerformed
+
+    private void jBanteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBanteriorActionPerformed
         // TODO add your handling code here:
-        
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jBanteriorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,8 +315,8 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jBanterior;
+    private javax.swing.JButton jBterminar;
     private javax.swing.JComboBox<String> jCBconfianza;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -305,7 +344,7 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
     public void setMain(Principal main) {
         this.main = main;
     }
-    
+
     public void estado(int a) {
         if (a == 1) {
             this.setVisible(true);
@@ -328,22 +367,44 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
 
     private void decryptFix(String datos) {
         //Arreglo de datos para llenar
-        String [] datosAmigo = new String[5];
-        if(datos != null){
-            String [] div1 = datos.split("%%");
+        String[] datosAmigo = new String[5];
+        if (datos != null) {
+            String[] div1 = datos.split("%%");
             for (int i = 0; i < div1.length; i++) {
-                String [] div2 = div1[i].split(":");
+                String[] div2 = div1[i].split(":");
                 datosAmigo[i] = div2[1];
-            }    
+            }
         }
-        
+
         jLnombre.setText(datosAmigo[0]);
         jLapodo.setText(datosAmigo[1]);
         jLdir_ip.setText(datosAmigo[3]);
         jLpuerto.setText(datosAmigo[4]);
-        
-            
-        }
+
     }
 
+    private void insertarAmigoLocal(String condicion) {
+        try{
+            
+            String ipAmigo = jLdir_ip.getText();
+            String puertoAmigo = jLpuerto.getText();
+            String nombreAmigo = jLnombre.getText();
+            String apodoAmigo = jLapodo.getText();
+            String certiAmigo = main.getUsuario().getAmigoCertificado();
+            int idAmigo = main.getUsuario().getIdAmigo();
+            
+            
+            Connection cn = Mysql.getConection();
+            String sentIn = " INSERT INTO `amigo`(`AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoCondicion`,`AmigoDeQueNodo`)";
+            sentIn = sentIn + "Values (" + ipAmigo + "," + puertoAmigo + "," + certiAmigo + "," + nombreAmigo + "," + apodoAmigo + "," + condicion + "," + idAmigo + ")";
+            System.out.println(sentIn);
+            Statement sent = cn.createStatement();
+            sent.executeUpdate(sentIn);
+            System.out.println("Guardado");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionAmigos.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }
+}

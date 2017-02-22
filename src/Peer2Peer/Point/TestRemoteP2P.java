@@ -13,4 +13,6 @@ public interface TestRemoteP2P extends Remote {
     ArrayList<Video>  tellMeUrVideos() throws RemoteException;  
    Video  OECTmDimeTuVideo()  throws RemoteException;  
    String  TransmitemeTuVideo(String host, int puerto)  throws RemoteException; 
+   //Agregar Amigos
+   String verificaAmistad(String certificadoOtro) throws RemoteException;
 }
