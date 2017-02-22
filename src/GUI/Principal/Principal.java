@@ -290,7 +290,7 @@ public class Principal extends javax.swing.JFrame {
         try {
             Remote stub = UnicastRemoteObject.exportObject(serverPeticiones, 0);
             Registry registry = LocateRegistry.createRegistry(Integer.parseInt(usuario.getAmigoPuerto()));
-            String  nombreServer = usuario.getAmigoNombre()+"-"+usuario.getAmigoIp();
+            String  nombreServer = usuario.getAmigoNombre()+"-"+usuario.getAmigoIp()+"-"+usuario.getAmigoPuerto();
            
             registry.bind(nombreServer, stub);
             System.out.println("se llama al server del cliente y esta corriendo");
