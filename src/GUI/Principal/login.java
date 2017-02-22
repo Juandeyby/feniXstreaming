@@ -11,6 +11,8 @@ import static Bean.UsuarioLogueado.cn;
 import GUI.NodoLocal.InsertarLocal;
 import Ruteador.Servidor.TestRemote;
 import java.awt.event.KeyEvent;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -189,11 +191,21 @@ public class login extends javax.swing.JFrame {
                 }    
                 Principal prin = new Principal();
                 prin.setUsuariosConectados(presentes);
+                          String host = InetAddress.getLocalHost().getHostAddress();
+
+                usuario.setAmigoIp(host);
+                           int random = (int) (Math.floor(Math.random()*500));
+
+                 int porto =  Registry.REGISTRY_PORT+4000+random;
+               usuario.setAmigoPuerto(""+porto);
                 prin.setUsuario(usuario);
+                prin.iniciarServer();
                 prin.estado(1);
                 this.setVisible(false);
 
             } catch (RemoteException | NotBoundException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnknownHostException ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
 

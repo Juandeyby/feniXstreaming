@@ -46,21 +46,11 @@ public class Principal extends javax.swing.JFrame {
         iniMio();
     }
     public void iniMio(){
-    
-        try {
+
             serverPoint = new ClienteP2P(this);
             serverPoint.run();
             serverPeticiones = new ServerPeticionesP2P();
-            Remote stub = UnicastRemoteObject.exportObject(serverPeticiones, 0);
-            Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT+4000);
-            String  nombreServer = usuario.getAmigoNombre()+"-"+usuario.getAmigoIp();
-            registry.bind(nombreServer, stub);
-            System.out.println("se llama al server del cliente y esta corriendo");
-        } catch (RemoteException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AlreadyBoundException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+     
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -296,5 +286,21 @@ public class Principal extends javax.swing.JFrame {
     public void setServerPeticiones(ServerPeticionesP2P serverPeticiones) {
         this.serverPeticiones = serverPeticiones;
     }
-
+    public void iniciarServer(){
+        try {
+            Remote stub = UnicastRemoteObject.exportObject(serverPeticiones, 0);
+            Registry registry = LocateRegistry.createRegistry(Integer.parseInt(usuario.getAmigoPuerto()));
+            String  nombreServer = usuario.getAmigoNombre()+"-"+usuario.getAmigoIp();
+           
+            registry.bind(nombreServer, stub);
+            System.out.println("se llama al server del cliente y esta corriendo");
+        } catch (AlreadyBoundException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (AccessException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
 }

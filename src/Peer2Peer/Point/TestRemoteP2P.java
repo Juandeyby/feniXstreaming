@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 public interface TestRemoteP2P extends Remote {
     dota sayHello(String name) throws RemoteException;
-    ArrayList<Video>  tellMeUrVideos();  
-   Video  OECTmDimeTuVideo();  
+    ArrayList<Video>  tellMeUrVideos() throws RemoteException;  
+   Video  OECTmDimeTuVideo()  throws RemoteException;  
         
 }
