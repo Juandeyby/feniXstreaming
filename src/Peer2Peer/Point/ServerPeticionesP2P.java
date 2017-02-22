@@ -76,7 +76,7 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
 
     private static String formatRtpStream(String serverAddress, int serverPort) {
         StringBuilder sb = new StringBuilder(60);
-        sb.append(":sout=#transcode{vcodec=h264,vb=500,width=480,height=360,acodec=mp3,ab=128,channels=2,samplerate=44100}:duplicate{dst=display,dst=rtp{dst=");
+        sb.append(":sout=#transcode{vcodec=h264,vb=500,width=480,height=360,acodec=mp3,ab=128,channels=2,samplerate=44100}");
         sb.append(serverAddress);
         sb.append(",port=");
         sb.append(serverPort);
