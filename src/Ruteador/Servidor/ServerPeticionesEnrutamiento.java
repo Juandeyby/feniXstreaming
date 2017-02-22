@@ -23,7 +23,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-public class ServerPeticionesEnrutamiento implements TestRemote {
+public class ServerPeticionesEnrutamiento extends Thread implements TestRemote {
    private ArrayList<Amigo> amigosPresentes = new ArrayList<Amigo>();  
     @Override
     public dota sayHello(String name) throws RemoteException {
@@ -53,6 +53,19 @@ public class ServerPeticionesEnrutamiento implements TestRemote {
         return presentes;
     }
 
-        
+   @Override
+      public void run(){
+          while (true){
+               
+              Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(),Integer.parseInt(amiguito.getAmigoPuerto()));
+            String  nombreServer =" rmi://"+amiguito.getAmigoIp()+":"+amiguito.getAmigoPuerto()+"/server";
+                        System.out.println(nombreServer);
+            TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
+            Video video =testRemote.OECTmDimeTuVideo();
+    
+              
+          }
+     
+      }    
    
 }

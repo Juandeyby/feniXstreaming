@@ -174,10 +174,18 @@ public class login extends javax.swing.JFrame {
                 Registry registry = LocateRegistry.getRegistry();
                 TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
                usuario = new UsuarioLogueado(usuName, contra);
-                if(usuario.getAmigoIp() == null){
+               
+               if(usuario.getAmigoIp() == null){
                     
                     JOptionPane.showMessageDialog(null, "Nancy causa te weveaste de id o contra");
                     return;}
+                String host = InetAddress.getLocalHost().getHostAddress();
+
+                usuario.setAmigoIp(host);
+                           int random = (int) (Math.floor(Math.random()*500));
+
+                 int porto =  Registry.REGISTRY_PORT+9000+random;
+               usuario.setAmigoPuerto(""+porto);
                 ArrayList<Amigo> presentes = testRemote.ImHere(usuario);
                 //Amigo.CambiarAmigos(presentes);
                 if (presentes == null) {
@@ -189,18 +197,18 @@ public class login extends javax.swing.JFrame {
                     System.out.println("soy el amiguito " + amiguito.getAmigoNombre() +" y estoy presente");
                 
                 }    
+                long a = System.nanoTime();
                 Principal prin = new Principal();
                 prin.setUsuariosConectados(presentes);
-                          String host = InetAddress.getLocalHost().getHostAddress();
-
-                usuario.setAmigoIp(host);
-                           int random = (int) (Math.floor(Math.random()*500));
-
-                 int porto =  Registry.REGISTRY_PORT+4000+random;
-               usuario.setAmigoPuerto(""+porto);
+                a= System.nanoTime()-a;
+                System.out.print("creacion del objeto " + a );
                 prin.setUsuario(usuario);
+                                long b = System.nanoTime();
+
                 prin.iniciarServer();
                 prin.estado(1);
+                  a= System.nanoTime()-a;
+                System.out.print("creacion del objeto " + a );
                 this.setVisible(false);
 
             } catch (RemoteException | NotBoundException ex) {
@@ -237,7 +245,6 @@ public class login extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
                 new NativeDiscovery().discover();
-
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

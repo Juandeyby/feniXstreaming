@@ -41,12 +41,13 @@ public class ClienteP2P extends Thread{
     }
     public void run() {
         try {
-            sleep(10000);
+            while (true){
+            sleep(3000);
             try {
                 iniciarEscuchaServer();
             } catch (NotBoundException ex) {
                 Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }}
         } catch (InterruptedException ex) {
             Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,13 +75,7 @@ public class ClienteP2P extends Thread{
             
             
             
-            int a =presente.size();
-             if (a>b){
-                 for(int i = usuariosConectados.size(); i < presente.size();i++){
-                    VideoStreaming stream = new VideoStreaming(videito, presente.get(i));
-                    stream.run();
-                    videos.put(presente.get(i),stream);}
-             }
+          
         } catch (RemoteException ex) {
             Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }

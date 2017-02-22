@@ -175,5 +175,10 @@ public class Amigo implements  Serializable{
         sent.executeUpdate(sentIn);
         System.out.println("guardado");
     }
+
+    @Override
+    public String toString() {
+        return "Amigo{" + "idAmigo=" + idAmigo + ", AmigoNombre=" + AmigoNombre + ", AmigoIp=" + AmigoIp + ", AmigoPuerto=" + AmigoPuerto + ", AmigoCertificado=" + AmigoCertificado + ", AmigoSobreNombre=" + AmigoSobreNombre + ", AmigoLogueoName=" + AmigoLogueoName + ", AmigoPassword=" + AmigoPassword + ", Activo=" + Activo + '}';
+    }
     
 }

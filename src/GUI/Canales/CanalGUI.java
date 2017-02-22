@@ -189,7 +189,7 @@ public class CanalGUI extends javax.swing.JFrame {
                                 System.err.println("oie ZHy");
               }
                   try {
-                      sleep(2000);
+                      sleep(1000);
                   } catch (InterruptedException ex) {
                       Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
                   }
@@ -278,7 +278,10 @@ public class CanalGUI extends javax.swing.JFrame {
       int a = 0 ;
        for (Amigo amiguito:usuariosConectados){
        try {
-           if (amiguito.equals(papa.getUsuario())){
+           System.out.println(amiguito );
+           System.out.println(papa.getUsuario() );
+
+           if (!amiguito.equals((Amigo)(papa.getUsuario()))){
            Video  videito =QueEstasTransmitiendo(amiguito);
           if (videito!=null&& videito.getMrlLocal()!=null){
            model.add(a,videito);
@@ -301,9 +304,9 @@ public class CanalGUI extends javax.swing.JFrame {
     }
 
     private Video QueEstasTransmitiendo(Amigo amiguito) throws RemoteException, NotBoundException {
-            Registry registry = LocateRegistry.getRegistry();
-                        String  nombreServer = papa.getUsuario().getAmigoNombre()+"-"+papa.getUsuario().getAmigoIp()+"-"+papa.getUsuario().getAmigoPuerto();
-
+            Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(),Integer.parseInt(amiguito.getAmigoPuerto()));
+            String  nombreServer =" rmi://"+amiguito.getAmigoIp()+":"+amiguito.getAmigoPuerto()+"/server";
+                        System.out.println(nombreServer);
             TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
             Video video =testRemote.OECTmDimeTuVideo();
             return video ;

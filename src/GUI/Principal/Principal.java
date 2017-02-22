@@ -48,7 +48,7 @@ public class Principal extends javax.swing.JFrame {
     public void iniMio(){
 
             serverPoint = new ClienteP2P(this);
-            serverPoint.run();
+            serverPoint.start();
             serverPeticiones = new ServerPeticionesP2P();
      
     }
@@ -288,10 +288,12 @@ public class Principal extends javax.swing.JFrame {
     }
     public void iniciarServer(){
         try {
-            Remote stub = UnicastRemoteObject.exportObject(serverPeticiones, 0);
+            Remote stub = UnicastRemoteObject.exportObject(serverPeticiones,Integer.parseInt( usuario.getAmigoPuerto()));
             Registry registry = LocateRegistry.createRegistry(Integer.parseInt(usuario.getAmigoPuerto()));
-            String  nombreServer = usuario.getAmigoNombre()+"-"+usuario.getAmigoIp()+"-"+usuario.getAmigoPuerto();
-           
+            String  nombreServer =" rmi://"+usuario.getAmigoIp()+":"+usuario.getAmigoPuerto()+"/server";
+           System.out.println(usuario.getAmigoPuerto());
+                      System.out.println(nombreServer);
+
             registry.bind(nombreServer, stub);
             System.out.println("se llama al server del cliente y esta corriendo");
         } catch (AlreadyBoundException ex) {
