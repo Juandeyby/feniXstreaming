@@ -5,13 +5,15 @@
  */
 package GUI.TransmitirVideo;
 
+import javax.swing.JFrame;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 /**
  *
  * @author USUARIO
  */
-public class PanelVideo extends javax.swing.JPanel {
+public final class PanelVideo extends javax.swing.JPanel {
 
     /**
      * Creates new form PanelVideo
@@ -24,13 +26,16 @@ public class PanelVideo extends javax.swing.JPanel {
     }
     public void iniMio(){
     
-    
+     System .out .println("estan exponiedo");
       player = new EmbeddedMediaPlayerComponent();
         //se añade reproductor 
-        jPanelReproducir.add(player);        
-        player.setSize(jPanelReproducir.getSize());                
-        player.setVisible(true);
-    
+        
+        player.setSize(jPanelReproducir.getSize()); 
+
+                        jPanelReproducir.add(player);    
+this. setVisible(true);
+         System .out .println("estan exponiedo");
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,15 +57,17 @@ public class PanelVideo extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        jPanelReproducir.setBackground(new java.awt.Color(153, 153, 255));
+
         javax.swing.GroupLayout jPanelReproducirLayout = new javax.swing.GroupLayout(jPanelReproducir);
         jPanelReproducir.setLayout(jPanelReproducirLayout);
         jPanelReproducirLayout.setHorizontalGroup(
             jPanelReproducirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 508, Short.MAX_VALUE)
         );
         jPanelReproducirLayout.setVerticalGroup(
             jPanelReproducirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
+            .addGap(0, 236, Short.MAX_VALUE)
         );
 
         btnMute.setText("Mute");
@@ -119,25 +126,25 @@ public class PanelVideo extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 528, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jPanelReproducir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jPanelReproducir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(9, 9, 9))
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(18, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelReproducir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(88, 88, 88))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelReproducir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addContainerGap(253, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
@@ -161,12 +168,20 @@ public class PanelVideo extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
  public void reproducir( String mrl ){
- 
+  
         player.getMediaPlayer().playMedia(mrl);    
-                    sldVolumen.setValue(  player.getMediaPlayer().getVolume() );
-                   sldProgress.setEnabled(true);
+        sldVolumen.setValue(  player.getMediaPlayer().getVolume() );
+        sldProgress.setEnabled(true);
  }
+public static void main (String args[]){
+                    new NativeDiscovery().discover();
 
+     JFrame frame = new JFrame();
+     frame.setSize(1000,1000);
+     frame.setContentPane(new PanelVideo());
+frame.setVisible(true);
+
+}
 
 
 }

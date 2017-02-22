@@ -51,7 +51,7 @@ public class CanalGUI extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jBVer = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         panelVideo1 = new GUI.TransmitirVideo.PanelVideo();
 
@@ -70,10 +70,10 @@ public class CanalGUI extends javax.swing.JFrame {
 
         jButton1.setText("descargar ");
 
-        jButton2.setText("Ver");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jBVer.setText("Ver");
+        jBVer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jBVerActionPerformed(evt);
             }
         });
 
@@ -90,7 +90,7 @@ public class CanalGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBVer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -102,7 +102,7 @@ public class CanalGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(27, 27, 27)
-                .addComponent(jButton2)
+                .addComponent(jBVer)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -157,12 +157,25 @@ public class CanalGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jBVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerActionPerformed
         // TODO add your handling code here:
-        
-        
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+        int a= jList1.getSelectedIndex();
+     
+        if (a<0) return ;
+        System.err.println("eres mas manco de lo que crei");
+        Video videito =   (Video)( jList1.getModel().getElementAt(a));
+        String mrl="";
+        try {
+            mrl = sacarMrlVido(videito);
+        } catch (RemoteException ex) {
+            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        panelVideo1.iniMio();
+        panelVideo1.reproducir(mrl);
+        System.out.println("pase EEE ");
+    }//GEN-LAST:event_jBVerActionPerformed
     public  void iniMio(){
  new Thread (){
           @Override
@@ -172,7 +185,7 @@ public class CanalGUI extends javax.swing.JFrame {
                                 System.err.println("oie ZHy");
               }
                   try {
-                      sleep(1000);
+                      sleep(5000);
                   } catch (InterruptedException ex) {
                       Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
                   }
@@ -224,8 +237,8 @@ public class CanalGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBVer;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList jList1;
@@ -260,8 +273,7 @@ public class CanalGUI extends javax.swing.JFrame {
       int a = 0 ;
        for (Amigo amiguito:usuariosConectados){
        try {
-           System.out.println(amiguito );
-           System.out.println(papa.getUsuario() );
+          
 
            if (!amiguito.equals((Amigo)(papa.getUsuario()))){
            Video  videito =QueEstasTransmitiendo(amiguito);
@@ -288,7 +300,6 @@ public class CanalGUI extends javax.swing.JFrame {
     private Video QueEstasTransmitiendo(Amigo amiguito) throws RemoteException, NotBoundException {
             Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(),Integer.parseInt(amiguito.getAmigoPuerto()));
             String  nombreServer =" rmi://"+amiguito.getAmigoIp()+":"+amiguito.getAmigoPuerto()+"/server";
-                        System.out.println(nombreServer);
             TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
             Video video =testRemote.OECTmDimeTuVideo();
             return video ;
@@ -301,8 +312,10 @@ public class CanalGUI extends javax.swing.JFrame {
             String  nombreServer =" rmi://"+amiguito.getAmigoIp()+":"+amiguito.getAmigoPuerto()+"/server";
                         System.out.println(nombreServer);
             TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
+    
             String mrl =testRemote.TransmitemeTuVideo(papa.getUsuario().getAmigoIp(), Integer.parseInt(papa.getUsuario().getAmigoPuerto())+1);
-              return mrl;
+    
+            return mrl;
     
   
   

@@ -60,7 +60,7 @@ public class ServerPeticionesEnrutamiento  implements TestRemote {
       
     public ServerPeticionesEnrutamiento(){
     
-    
+    // pubnub  puede ayudar a rutear causa
     new Thread(){
     public void run(){
           while (true){
@@ -79,7 +79,6 @@ public class ServerPeticionesEnrutamiento  implements TestRemote {
                        TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
                        amigosVivos.add(amiguito);
                    } catch (RemoteException | NotBoundException ex) {
-                       amigosPresentes.remove(amiguito);
 
                    } 
                    amigosPresentes=amigosVivos;
