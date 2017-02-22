@@ -6,7 +6,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-public class Server {
+public class Server extends Thread{
+    
    
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
         Remote stub = UnicastRemoteObject.exportObject(new ServerPeticionesEnrutamiento(), 0);

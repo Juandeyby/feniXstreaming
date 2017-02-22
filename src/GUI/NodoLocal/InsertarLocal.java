@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 package GUI.NodoLocal;
-
+import GUI.Principal.Principal;
 import Bean.AmigoLocal;
 import GUI.Principal.login;
 import Utilitarios.Encriptacion;
 import Utilitarios.Generico;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
@@ -32,6 +34,7 @@ public class InsertarLocal extends javax.swing.JFrame {
      }
     public InsertarLocal() {
         initComponents();
+        centrarPantalla();
     }
 
     /**
@@ -130,13 +133,13 @@ public class InsertarLocal extends javax.swing.JFrame {
                         .addComponent(jTApodo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(298, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(262, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(38, 38, 38)
-                        .addComponent(jButton1)
-                        .addGap(101, 101, 101))
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(170, 170, 170))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(248, 248, 248))))
@@ -228,14 +231,16 @@ public class InsertarLocal extends javax.swing.JFrame {
             yo.setAmigoSobreNombre("'"+apodo+"'");
             yo.setAmigoCertificado("'"+Certificado+"'");
             yo.setIdAmigo(Generico.GetNewId("datosnodoactual","IdAmigo"));
+            
             yo.insertar();
         } catch (UnknownHostException ex) {
             Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
-        
+        Principal pi = new Principal();
+         pi.estado(1);
+         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -307,6 +312,11 @@ public class InsertarLocal extends javax.swing.JFrame {
   }
  }
 
+    private void centrarPantalla() {
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension ventana = this.getSize();
+        this.setLocation((int) (pantalla.width - ventana.width) / 2, (int) (pantalla.height - ventana.height) / 2);
+    }
     public login getPapa() {
         return papa;
     }
