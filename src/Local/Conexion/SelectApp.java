@@ -41,8 +41,8 @@ public class SelectApp {
             
             // loop through the result set
             while (rs.next()) {
-                System.out.println(rs.getInt("IdAmigo") +  "\t" + 
-                                   rs.getString("AmigoNombre"));
+                System.out.println(rs.getString("AmigoLogueoName") +  "\t" + 
+                                   rs.getString("AmigoPassword"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

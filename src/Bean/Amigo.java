@@ -5,7 +5,7 @@
  */
 package Bean;
 
-import static Bean.UsuarioLogueado.cn;
+//import static Bean.UsuarioLogueado.cn;
 import GUI.Principal.login;
 import Local.Conexion.InsertApp;
 import java.io.Serializable;
@@ -108,34 +108,34 @@ public class Amigo implements Serializable {
         this.Activo = Activo;
     }
 
-    public static void EstadoAmigosASinConexion() {
-        try {
-            String sql = "update Amigo set  amigoEstado = 0  ";
-
-            Statement sent = cn.createStatement();
-            sent.executeUpdate(sql);
-            System.out.println("guardado");
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public static void CambiarAmigos(ArrayList<Amigo> presentes) {
-        try {
-            String sql = "update Amigo set  amigoEstadoActual = true where ";
-            for (Amigo amiguito : presentes) {
-                sql += " amigoCertificado = '" + amiguito.getAmigoCertificado() + "' or ";
-            }
-            sql = sql.substring(0, sql.length() - 3);
-            Statement sent = cn.createStatement();
-            sent.executeUpdate(sql);
-            System.out.println("guardado");
-        } catch (SQLException ex) {
-            Logger.getLogger(Amigo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+//    public static void EstadoAmigosASinConexion() {
+//        try {
+//            String sql = "update Amigo set  amigoEstado = 0  ";
+//
+//            Statement sent = cn.createStatement();
+//            sent.executeUpdate(sql);
+//            System.out.println("guardado");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
+//
+//    public static void CambiarAmigos(ArrayList<Amigo> presentes) {
+//        try {
+//            String sql = "update Amigo set  amigoEstadoActual = true where ";
+//            for (Amigo amiguito : presentes) {
+//                sql += " amigoCertificado = '" + amiguito.getAmigoCertificado() + "' or ";
+//            }
+//            sql = sql.substring(0, sql.length() - 3);
+//            Statement sent = cn.createStatement();
+//            sent.executeUpdate(sql);
+//            System.out.println("guardado");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Amigo.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
 
     @Override
     public int hashCode() {
@@ -172,8 +172,8 @@ public class Amigo implements Serializable {
 
     public void insertar() throws SQLException {
         //INSERT INTO `empresa`(`IdEmpresa`, `IdEmpresaGrupo`, `EmpRuc`, `EmpNom`, `EmpTel`, `EmpDir`, `EmpEstReg`)
-        String sentIn = " INSERT INTO `datosnodoactual`(`IdAmigo`, `AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoLogueoName`, `AmigoPassword`) "
-                + "Values (" + idAmigo + "," + AmigoIp + "," + AmigoPuerto + "," + AmigoCertificado + "," + AmigoNombre + "," + AmigoSobreNombre + "," + AmigoLogueoName + "," + AmigoPassword + ")";
+        String sentIn = " INSERT INTO `datosnodoactual`(`AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoLogueoName`, `AmigoPassword`) "
+                + "Values (" + AmigoIp + "," + AmigoPuerto + "," + AmigoCertificado + "," + AmigoNombre + "," + AmigoSobreNombre + "," + AmigoLogueoName + "," + AmigoPassword + ")";
         System.out.println(sentIn);
         InsertApp command = new InsertApp();
         try (Connection conn = command.connect();
@@ -190,7 +190,12 @@ public class Amigo implements Serializable {
 
     @Override
     public String toString() {
-        return "Amigo{" + "idAmigo=" + idAmigo + ", AmigoNombre=" + AmigoNombre + ", AmigoIp=" + AmigoIp + ", AmigoPuerto=" + AmigoPuerto + ", AmigoCertificado=" + AmigoCertificado + ", AmigoSobreNombre=" + AmigoSobreNombre + ", AmigoLogueoName=" + AmigoLogueoName + ", AmigoPassword=" + AmigoPassword + ", Activo=" + Activo + '}';
+        return "Amigo{" + "idAmigo=" + idAmigo + ", AmigoNombre="
+                + AmigoNombre + ", AmigoIp=" + AmigoIp + ", AmigoPuerto="
+                + AmigoPuerto + ", AmigoCertificado=" + AmigoCertificado
+                + ", AmigoSobreNombre=" + AmigoSobreNombre +
+                ", AmigoLogueoName=" + AmigoLogueoName + ", AmigoPassword="
+                + AmigoPassword + ", Activo=" + Activo + '}';
     }
 
 }
