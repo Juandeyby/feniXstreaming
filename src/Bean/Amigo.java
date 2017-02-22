@@ -168,8 +168,8 @@ public class Amigo implements  Serializable{
     
     public void insertar() throws SQLException {
         //INSERT INTO `empresa`(`IdEmpresa`, `IdEmpresaGrupo`, `EmpRuc`, `EmpNom`, `EmpTel`, `EmpDir`, `EmpEstReg`)
-        String sentIn =" INSERT INTO `datosnodoactual`(`IdAmigo`, `AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoLogueoName`, `AmigoPassword`)";
-        sentIn = sentIn + "Values (" +idAmigo + "," +AmigoIp + ","+ AmigoPuerto  +","+ AmigoCertificado+","+AmigoNombre+","+AmigoSobreNombre+","+AmigoLogueoName+","+AmigoPassword+")";
+        String sentIn =" INSERT INTO `datosnodoactual`(`IdAmigo`, `AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoLogueoName`, `AmigoPassword`) "
+                + "Values (" +idAmigo + "," +AmigoIp + ","+ AmigoPuerto  +","+ AmigoCertificado+","+AmigoNombre+","+AmigoSobreNombre+","+AmigoLogueoName+","+AmigoPassword+")";
         System.out.println(sentIn);
         Statement sent = cn.createStatement();
         sent.executeUpdate(sentIn);

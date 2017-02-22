@@ -9,8 +9,8 @@ package Bean;
  *
  * @author USUARIO
  */
-public class AmigoLocal extends  Amigo{
-     private String ruta ="";
+public class AmigoLocal extends  Amigo {
+     private String ruta = "";
      private String EstadoActual  ;
 
     public String getRuta() {

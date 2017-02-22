@@ -216,10 +216,10 @@ public class InsertarLocal extends javax.swing.JFrame {
             String Certificado = "Amigo:"+nombre+"%%"
                     +"AmigoSobreNombre:"+apodo+"%%"
                     +"AmigoLogueoName:"+login+"%%"
-                 + "AmigoIP:"+host+"%%"
-                        +"AmigoPuerto:"+puerto+"%%"
+                    + "AmigoIP:"+host+"%%"
+                    +"AmigoPuerto:"+puerto+"%%"
                     ;
-            Certificado= Encriptacion.Encriptar(Certificado);
+            Certificado = Encriptacion.Encriptar(Certificado);
             
             AmigoLocal yo = new AmigoLocal();
             yo.setAmigoCertificado("'"+Certificado+"'");
@@ -230,7 +230,7 @@ public class InsertarLocal extends javax.swing.JFrame {
             yo.setAmigoPuerto("'"+puerto+"'");
             yo.setAmigoSobreNombre("'"+apodo+"'");
             yo.setAmigoCertificado("'"+Certificado+"'");
-            yo.setIdAmigo(Generico.GetNewId("datosnodoactual","IdAmigo"));
+//            yo.setIdAmigo(Generico.GetNewId("datosnodoactual","IdAmigo"));
             
             yo.insertar();
         } catch (UnknownHostException ex) {
