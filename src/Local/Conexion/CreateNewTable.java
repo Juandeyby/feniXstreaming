@@ -49,8 +49,10 @@ public class CreateNewTable {
         try (Connection conn = DriverManager.getConnection(url);
                 Statement stmt = conn.createStatement()) {
             // create a new table
-            stmt.execute(sql_1);
-            stmt.execute(sql_2);
+            if(stmt.execute(sql_1))
+                System.out.println("Sexo1");
+            if(stmt.execute(sql_2))
+                System.out.println("Sexo2");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

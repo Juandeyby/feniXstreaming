@@ -7,7 +7,10 @@ package Bean;
 
 import static Bean.UsuarioLogueado.cn;
 import GUI.Principal.login;
+import Local.Conexion.InsertApp;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author USUARIO
  */
-public class Amigo implements  Serializable{
+public class Amigo implements Serializable {
 
     private int idAmigo;
 
@@ -30,8 +33,9 @@ public class Amigo implements  Serializable{
     private String AmigoSobreNombre;
     private String AmigoLogueoName;
     private String AmigoPassword;
-   
-    private boolean Activo ;
+
+    private boolean Activo;
+
     public int getIdAmigo() {
         return idAmigo;
     }
@@ -103,19 +107,21 @@ public class Amigo implements  Serializable{
     public void setActivo(boolean Activo) {
         this.Activo = Activo;
     }
- public  static  void  EstadoAmigosASinConexion(){
+
+    public static void EstadoAmigosASinConexion() {
         try {
             String sql = "update Amigo set  amigoEstado = 0  ";
-            
+
             Statement sent = cn.createStatement();
             sent.executeUpdate(sql);
             System.out.println("guardado");
         } catch (SQLException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
- public static void CambiarAmigos( ArrayList <Amigo> presentes ) {
+
+    public static void CambiarAmigos(ArrayList<Amigo> presentes) {
         try {
             String sql = "update Amigo set  amigoEstadoActual = true where ";
             for (Amigo amiguito : presentes) {
@@ -128,8 +134,8 @@ public class Amigo implements  Serializable{
         } catch (SQLException ex) {
             Logger.getLogger(Amigo.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
- }      
+
+    }
 
     @Override
     public int hashCode() {
@@ -164,21 +170,27 @@ public class Amigo implements  Serializable{
         return true;
     }
 
- 
-    
     public void insertar() throws SQLException {
         //INSERT INTO `empresa`(`IdEmpresa`, `IdEmpresaGrupo`, `EmpRuc`, `EmpNom`, `EmpTel`, `EmpDir`, `EmpEstReg`)
-        String sentIn =" INSERT INTO `datosnodoactual`(`IdAmigo`, `AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoLogueoName`, `AmigoPassword`) "
-                + "Values (" +idAmigo + "," +AmigoIp + ","+ AmigoPuerto  +","+ AmigoCertificado+","+AmigoNombre+","+AmigoSobreNombre+","+AmigoLogueoName+","+AmigoPassword+")";
+        String sentIn = " INSERT INTO `datosnodoactual`(`IdAmigo`, `AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoLogueoName`, `AmigoPassword`) "
+                + "Values (" + idAmigo + "," + AmigoIp + "," + AmigoPuerto + "," + AmigoCertificado + "," + AmigoNombre + "," + AmigoSobreNombre + "," + AmigoLogueoName + "," + AmigoPassword + ")";
         System.out.println(sentIn);
-        Statement sent = cn.createStatement();
-        sent.executeUpdate(sentIn);
-        System.out.println("guardado");
+        InsertApp command = new InsertApp();
+        try (Connection conn = command.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sentIn)) {
+            if (pstmt.executeUpdate() == 1) {
+                System.out.println("guardado");
+            } else {
+                System.out.println("error");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public String toString() {
         return "Amigo{" + "idAmigo=" + idAmigo + ", AmigoNombre=" + AmigoNombre + ", AmigoIp=" + AmigoIp + ", AmigoPuerto=" + AmigoPuerto + ", AmigoCertificado=" + AmigoCertificado + ", AmigoSobreNombre=" + AmigoSobreNombre + ", AmigoLogueoName=" + AmigoLogueoName + ", AmigoPassword=" + AmigoPassword + ", Activo=" + Activo + '}';
     }
-    
+
 }

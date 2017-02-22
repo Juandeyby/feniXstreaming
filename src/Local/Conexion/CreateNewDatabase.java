@@ -16,9 +16,9 @@ public class CreateNewDatabase {
      *
      * @param fileName the database file name
      */
-    public static void createNewDatabase(String fileName) {
+    public static void createNewDatabase() {
  
-        String url = "jdbc:sqlite:" + fileName;
+        String url = "jdbc:sqlite:feniXtreaming.db";
  
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -36,6 +36,6 @@ public class CreateNewDatabase {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        createNewDatabase("feniXtreaming.db");
+        createNewDatabase();
     }
 }

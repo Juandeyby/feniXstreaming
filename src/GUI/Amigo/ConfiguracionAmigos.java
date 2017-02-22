@@ -6,7 +6,6 @@
 package GUI.Amigo;
 
 import GUI.Principal.Principal;
-import Local.Conexion.Mysql;
 import Peer2Peer.Point.TestRemoteP2P;
 import Ruteador.Servidor.TestRemote;
 import java.awt.Dimension;

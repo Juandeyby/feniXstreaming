@@ -18,7 +18,7 @@ public class SelectApp {
      */
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:test.db";
+        String url = "jdbc:sqlite:feniXtreaming.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -33,7 +33,7 @@ public class SelectApp {
      * select all rows in the warehouses table
      */
     public void selectAll(){
-        String sql = "SELECT id, name, capacity FROM warehouses";
+        String sql = "SELECT * FROM datosnodoactual";
         
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
@@ -41,15 +41,13 @@ public class SelectApp {
             
             // loop through the result set
             while (rs.next()) {
-                System.out.println(rs.getInt("id") +  "\t" + 
-                                   rs.getString("name") + "\t" +
-                                   rs.getDouble("capacity"));
+                System.out.println(rs.getInt("IdAmigo") +  "\t" + 
+                                   rs.getString("AmigoNombre"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    
    
     /**
      * @param args the command line arguments

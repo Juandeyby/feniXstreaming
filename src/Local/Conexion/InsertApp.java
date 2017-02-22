@@ -16,9 +16,9 @@ public class InsertApp {
      *
      * @return the Connection object
      */
-    private Connection connect() {
+    public Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:test.db";
+        String url = "jdbc:sqlite:feniXtreaming.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
