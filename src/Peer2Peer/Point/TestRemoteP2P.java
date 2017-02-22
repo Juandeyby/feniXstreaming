@@ -12,5 +12,5 @@ public interface TestRemoteP2P extends Remote {
     dota sayHello(String name) throws RemoteException;
     ArrayList<Video>  tellMeUrVideos() throws RemoteException;  
    Video  OECTmDimeTuVideo()  throws RemoteException;  
-      
+   String  TransmitemeTuVideo(String host, int puerto)  throws RemoteException; 
 }

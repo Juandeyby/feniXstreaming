@@ -3,8 +3,10 @@ package Ruteador.Servidor;
 
 import Bean.Amigo;
 import Bean.UsuarioLogueado;
+import Peer2Peer.Point.TestRemoteP2P;
 import Ruteador.Bean.dota;
 import Ruteador.Bean.UsuarioConneccion;
+import java.rmi.AccessException;
 import java.rmi.Remote;
 
 /*
@@ -23,7 +25,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-public class ServerPeticionesEnrutamiento extends Thread implements TestRemote {
+import java.util.logging.Level;
+import java.util.logging.Logger;
+public class ServerPeticionesEnrutamiento  implements TestRemote {
    private ArrayList<Amigo> amigosPresentes = new ArrayList<Amigo>();  
     @Override
     public dota sayHello(String name) throws RemoteException {
@@ -53,19 +57,37 @@ public class ServerPeticionesEnrutamiento extends Thread implements TestRemote {
         return presentes;
     }
 
-   @Override
-      public void run(){
-          while (true){
-               
-              Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(),Integer.parseInt(amiguito.getAmigoPuerto()));
-            String  nombreServer =" rmi://"+amiguito.getAmigoIp()+":"+amiguito.getAmigoPuerto()+"/server";
-                        System.out.println(nombreServer);
-            TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
-            Video video =testRemote.OECTmDimeTuVideo();
+      
+    public ServerPeticionesEnrutamiento(){
     
-              
+    
+    new Thread(){
+    public void run(){
+          while (true){
+              try {
+                  sleep(10000);
+              } catch (InterruptedException ex) {
+                  Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
+              }
+                ArrayList<Amigo> amigosVivos = new ArrayList<>();
+               for(Amigo amiguito : amigosPresentes){
+                   try {
+                       Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(),Integer.parseInt(amiguito.getAmigoPuerto()));
+                       String  nombreServer =" rmi://"+amiguito.getAmigoIp()+":"+amiguito.getAmigoPuerto()+"/server";
+                       System.out.println(nombreServer);
+                       
+                       TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
+                       amigosVivos.add(amiguito);
+                   } catch (RemoteException | NotBoundException ex) {
+                       amigosPresentes.remove(amiguito);
+
+                   } 
+                   amigosPresentes=amigosVivos;
+               }
           }
      
       }    
-   
+    
+    }.  start();
+    }
 }

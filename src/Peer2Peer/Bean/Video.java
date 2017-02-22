@@ -7,16 +7,18 @@ package Peer2Peer.Bean;
 
 import Bean.Amigo;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
  * @author USUARIO
  */
 public class Video  implements Serializable{
-    private String Descripcion ;
+    private String Descripcion ="descripcion";
     private Amigo usuarioDueño ;
     private int porto=5555;
     private String mrlLocal;
+    private int  latencia = 0 ;
     public Video(Amigo dueño, String mrl){
         usuarioDueño = dueño;
         mrlLocal=mrl;
@@ -55,9 +57,16 @@ public class Video  implements Serializable{
         this.mrlLocal = mrlLocal;
     }
 
+    public int getLatencia() {
+        return latencia;
+    }
+
+    public void setLatencia(int latencia) {
+        this.latencia = latencia;
+    }
+
     @Override
     public String toString() {
-        return "Video{" + "Descripcion=" + Descripcion + ", usuarioDue\u00f1o=" + usuarioDueño + ", porto=" + porto + ", mrlLocal=" + mrlLocal + '}';
-    }
+return Descripcion + "  transmision a " + latencia ;    }
     
 }
