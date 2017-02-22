@@ -20,7 +20,7 @@ public class Mysql {
      private static String passw="tefa";
      private static String url="jdbc:mysql://192.168.1.47:3306/"+db;
      private static Connection c;*/
-            private static String db = "fenixdatabase";
+    private static String db = "fenixdatabase";
     private static String user = "root";
     private static String passw = "";
     private static String url = "jdbc:mysql://localhost/" + db;
