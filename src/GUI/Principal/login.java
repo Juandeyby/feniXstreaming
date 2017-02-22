@@ -10,6 +10,8 @@ import Bean.UsuarioLogueado;
 import static Bean.UsuarioLogueado.cn;
 import GUI.NodoLocal.InsertarLocal;
 import Ruteador.Servidor.TestRemote;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -38,6 +40,7 @@ public class login extends javax.swing.JFrame {
     private UsuarioLogueado usuario = new UsuarioLogueado();
     public login() {
         initComponents();
+        centrarPantalla();
     }
 
     /**
@@ -234,7 +237,12 @@ public class login extends javax.swing.JFrame {
          if(evt.getKeyCode()==KeyEvent.VK_ENTER)
          jBLoginActionPerformed(null);
     }//GEN-LAST:event_jTPaswordKeyPressed
+    private void centrarPantalla() {
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension ventana = this.getSize();
+        this.setLocation((int) (pantalla.width - ventana.width) / 2, (int) (pantalla.height - ventana.height) / 2);
 
+    }
     /**
      * @param args the command line arguments
      */
