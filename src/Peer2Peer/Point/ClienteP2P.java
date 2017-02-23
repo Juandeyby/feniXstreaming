@@ -76,7 +76,7 @@ public class ClienteP2P extends Thread {
             Registry registry = LocateRegistry.getRegistry();
             TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
             ArrayList<Amigo> presente = testRemote.WhoIsThere();
-
+            papa.setUsuariosConectados(presente);
         } catch (RemoteException ex) {
             Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }

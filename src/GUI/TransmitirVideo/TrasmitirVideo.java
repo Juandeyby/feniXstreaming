@@ -184,9 +184,7 @@ public class TrasmitirVideo extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       Video videoito= new Video(papa.getUsuario(), jTRuta.getText()); 
-        papa.getServerPeticiones().setVidoeoUnico(videoito);
-        JOptionPane.showMessageDialog(null, " ala bien estas trabsmitiendo");
+      transmitirVideo();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -244,5 +242,15 @@ public class TrasmitirVideo extends javax.swing.JFrame {
 
        panelVideo1.reproducir(jTRuta.getText());
                 
+    }
+    /***
+     * @see se le asigna al serve un video indicando el usuario  y la ruta del video  
+     */
+    private  void transmitirVideo(){
+    
+      Video videoito= new Video(papa.getUsuario(), jTRuta.getText()); 
+        papa.getServerPeticiones().setVidoeoUnico(videoito);
+        JOptionPane.showMessageDialog(null, " ala bien estas trabsmitiendo");
+    
     }
 }

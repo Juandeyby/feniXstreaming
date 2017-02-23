@@ -18,7 +18,7 @@ public class Video  implements Serializable{
     private Amigo usuarioDueño ;
     private int porto=5555;
     private String mrlLocal;
-    private int  latencia = 0 ;
+    private long  latencia = 0 ;
     public Video(Amigo dueño, String mrl){
         usuarioDueño = dueño;
         mrlLocal=mrl;
@@ -57,16 +57,16 @@ public class Video  implements Serializable{
         this.mrlLocal = mrlLocal;
     }
 
-    public int getLatencia() {
+    public long getLatencia() {
         return latencia;
     }
 
-    public void setLatencia(int latencia) {
+    public void setLatencia(long latencia) {
         this.latencia = latencia;
     }
 
     @Override
     public String toString() {
-return Descripcion + "  transmision a " + latencia ;    }
+return Descripcion + " \t transmision a \t " + latencia  +"ms" + "\t + transmitido por \t"+ usuarioDueño.getAmigoLogueoName() ;    }
     
 }

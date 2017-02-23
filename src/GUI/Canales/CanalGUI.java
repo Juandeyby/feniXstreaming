@@ -9,6 +9,7 @@ import Bean.Amigo;
 import GUI.Principal.Principal;
 import Peer2Peer.Bean.Video;
 import Peer2Peer.Point.TestRemoteP2P;
+import Utilitarios.Esteticos;
 import static java.lang.Thread.sleep;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -51,6 +53,7 @@ public class CanalGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jBVer = new javax.swing.JButton();
+        imagen = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         panelVideo1 = new GUI.TransmitirVideo.PanelVideo();
 
@@ -58,17 +61,22 @@ public class CanalGUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jListVideos.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "archivo 1", "video 2", "video 43", "musica 4", " " };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        jPanel2.setBackground(new java.awt.Color(253, 255, 254));
+
+        jListVideos.setForeground(new java.awt.Color(62, 64, 149));
+        jListVideos.setToolTipText("");
         jScrollPane1.setViewportView(jListVideos);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(62, 64, 149));
         jLabel2.setText("Archivos Compartido");
 
+        jButton1.setBackground(new java.awt.Color(153, 255, 255));
+        jButton1.setForeground(new java.awt.Color(62, 64, 149));
         jButton1.setText("descargar ");
 
+        jBVer.setBackground(new java.awt.Color(153, 255, 255));
+        jBVer.setForeground(new java.awt.Color(62, 64, 149));
         jBVer.setText("Ver");
         jBVer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,37 +84,48 @@ public class CanalGUI extends javax.swing.JFrame {
             }
         });
 
+        imagen.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        imagen.setText("Media Compartida");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBVer, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 23, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(0, 8, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBVer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(imagen)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addGap(11, 11, 11)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(27, 27, 27)
-                .addComponent(jBVer)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jBVer))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(43, 17, 0));
         jLabel1.setText("Media Compartida");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -114,37 +133,37 @@ public class CanalGUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(panelVideo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(227, 227, 227)
-                        .addComponent(jLabel1)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addComponent(panelVideo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(231, 231, 231)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panelVideo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                        .addGap(19, 19, 19)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 1, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,11 +174,20 @@ public class CanalGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/***
+ * 
+ * @param evt 
+ * @see  se llama  a los metodos    ver video seleccionado 
+ */
     private void jBVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerActionPerformed
         // TODO add your handling code here:
-     verVideoSeleccionado();
+    String mrl  =verVideoSeleccionado();
+     transmitirVideo(mrl);
     }//GEN-LAST:event_jBVerActionPerformed
+ /***
+  *  @see  inio personalisado de la interfaz , en el se crea un nuevo hilo 
+  * la tabla de videos 
+  */
     public void iniMio() {
         new Thread() {
             @Override
@@ -182,7 +210,7 @@ public class CanalGUI extends javax.swing.JFrame {
                 }
             }
         }.start();
-
+        Esteticos.ponerImagenIcono(this, imagen);
     }
 
     /**
@@ -222,6 +250,7 @@ public class CanalGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel imagen;
     private javax.swing.JButton jBVer;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -253,7 +282,9 @@ public class CanalGUI extends javax.swing.JFrame {
     public void setPapa(Principal papa) {
         this.papa = papa;
     }
-
+/***
+ * llena la caja de los videos  disponibles en este momento
+ */
     private void llenarVideos() {
 
         DefaultListModel model = new DefaultListModel();
@@ -284,12 +315,21 @@ public class CanalGUI extends javax.swing.JFrame {
          */
         jListVideos.setModel(model);
     }
-
+/***
+ * 
+ * @param amiguito amigo al cual le estamos preguntando informacion 
+ * @return Video que el servidor del amiguito dice q esta trasmitiendo 
+ * @throws RemoteException
+ * @throws NotBoundException 
+ */
     private Video QueEstasTransmitiendo(Amigo amiguito) throws RemoteException, NotBoundException {
+        long  a = System.currentTimeMillis();
         Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
         String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
         TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
         Video video = testRemote.OECTmDimeTuVideo();
+        a=System.currentTimeMillis()-a;
+        video.setLatencia(a);
         return video;
 
     }
@@ -322,13 +362,14 @@ public class CanalGUI extends javax.swing.JFrame {
         return "";
     }
       /***
-       * @see estamos ordenando los datos del boton 
+       * @see estamos ordenando los datos del boton  ver
+       * @return  String   retorna el mrl con el cual se esta trasmitiendo  el video seleccionado
        */  
-    private void verVideoSeleccionado() {
+    private String  verVideoSeleccionado() {
    int a = jListVideos.getSelectedIndex();
 
         if (a < 0) {
-            return;
+            return "";
         }
         System.err.println("eres mas manco de lo que crei");
         Video videito = (Video) (jListVideos.getModel().getElementAt(a));
@@ -339,5 +380,19 @@ public class CanalGUI extends javax.swing.JFrame {
         System.out.println(mrl);
         panelVideo1.iniMio();
         panelVideo1.reproducir(mrl);
-        System.out.println("pase EEE ");    }
+        System.out.println("pase EEE ");
+        return mrl;
+
+    }
+    /***
+     * @see cambia el video del servidor a un valor diferente de nulo para q sea buscado 
+     * @param mrl  fuente del video puede ser local o  reenviar transmision 
+     */
+    private  void transmitirVideo(String mrl){
+    
+      Video videoito= new Video(papa.getUsuario(), mrl); 
+        papa.getServerPeticiones().setVidoeoUnico(videoito);
+        JOptionPane.showMessageDialog(null, " ala bien estas trabsmitiendo");
+    
+    }
 }

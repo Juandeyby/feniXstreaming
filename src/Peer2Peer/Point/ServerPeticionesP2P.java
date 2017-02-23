@@ -42,7 +42,7 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
 
     private ArrayList<Video> videos = new ArrayList<Video>();
     private Video VidoeoUnico;
-    private ArrayList<EmbeddedMediaPlayer> video = new ArrayList<>();
+    private ArrayList<HeadlessMediaPlayer> streaming = new ArrayList<>();
     
 
     @Override
@@ -86,7 +86,6 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
 
         MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
         HeadlessMediaPlayer mediaPlayer = mediaPlayerFactory.newHeadlessMediaPlayer();
-
         mediaPlayer.playMedia(media,
             options,
             ":no-sout-rtp-sap",
@@ -95,6 +94,7 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
             ":sout-keep"
         );
         mrl = "rtp://@" +host+":"+port;
+       streaming.add(mediaPlayer);
 
         return mrl;
     }
@@ -139,5 +139,9 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
             Logger.getLogger(ServerPeticionesP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
         return condicion;
+    }
+    public void Cordinar( int tiempo ){
+         
+    
     }
 }

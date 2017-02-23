@@ -38,6 +38,7 @@ public class ServerPeticionesEnrutamiento implements TestRemote {
                         try {
                             Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
                             String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
+                             
                             TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
                             quienesEstan.add(amiguito);
                         } catch (RemoteException | NotBoundException ex) {
@@ -54,7 +55,10 @@ public class ServerPeticionesEnrutamiento implements TestRemote {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                
+                    for (Amigo  amiguito :amigosPresentes){
+                        System.out.println("hola soy el amigo "+amiguito.getAmigoLogueoName()+" y estoy vivito y coleando ");
+                    
+                    }
                 }
                 
             
