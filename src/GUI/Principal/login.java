@@ -9,6 +9,7 @@ import Bean.Amigo;
 import Bean.UsuarioLogueado;
 import GUI.NodoLocal.InsertarLocal;
 import Ruteador.Servidor.TestRemote;
+import Utilitarios.Esteticos;
 import de.root1.simon.Lookup;
 import de.root1.simon.Simon;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
@@ -43,13 +44,15 @@ public class login extends javax.swing.JFrame {
 
     public login() {
         initComponents();
-        // Import ImageIcon     
+        setSize(jPanel1.getWidth(), jPanel1.getHeight() + Esteticos.TAMANO_CABECERA);
         ImageIcon iconLogo = new ImageIcon("logo.png");
         // In init() method write this code
         jLabel3.setIcon(iconLogo);
         setResizable(false);
         Image icono = Toolkit.getDefaultToolkit().getImage("minilogo.png");
         this.setIconImage(icono);
+        Esteticos.formatearBoton(jBLogin);
+        Esteticos.formatearBoton(jBLogin1);
         centrarPantalla();
     }
 
@@ -74,7 +77,6 @@ public class login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FeniXtreaming v1.0");
-        setPreferredSize(new java.awt.Dimension(400, 350));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setAlignmentX(20.0F);
@@ -96,7 +98,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jBLogin.setBackground(new java.awt.Color(153, 255, 255));
+        jBLogin.setBackground(new java.awt.Color(155, 255, 255));
         jBLogin.setForeground(new java.awt.Color(62, 64, 149));
         jBLogin.setText("INGRESAR");
         jBLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -167,7 +169,7 @@ public class login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBLogin)
                     .addComponent(jBLogin1))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,7 +180,7 @@ public class login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
         );
 
         pack();

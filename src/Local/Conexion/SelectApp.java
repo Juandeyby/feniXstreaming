@@ -33,7 +33,7 @@ public class SelectApp {
      * select all rows in the warehouses table
      */
     public void selectAll(){
-        String sql = "SELECT * FROM datosnodoactual";
+        String sql = "SELECT * FROM amigo";
         
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
