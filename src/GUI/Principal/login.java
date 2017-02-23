@@ -205,9 +205,15 @@ public class login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Nancy causa te weveaste de id o contra");
                     return;
                 }
-                String host = InetAddress.getLocalHost().getHostAddress();
 
-                usuario.setAmigoIp(host);
+                String host = InetAddress.getLocalHost().getHostAddress();
+                String host1 = InsertarLocal.getIp();
+                if (!host.contains("127.0")) {
+                    usuario.setAmigoIp(host);
+                } else if (!host1.equals("0")) {
+                    usuario.setAmigoIp(host1);
+                }
+                
                 int random = (int) (Math.floor(Math.random() * 500));
 
                 int porto = Registry.REGISTRY_PORT + 9000 + random;

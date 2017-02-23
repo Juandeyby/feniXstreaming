@@ -212,21 +212,28 @@ public class InsertarLocal extends javax.swing.JFrame {
             String  apodo = jTApodo.getText();
             String login = jtUsuarioLogin.getText();
             String  contra = jtContra.getText();
-            String host = getIp();
+            String host = InetAddress.getLocalHost().getHostAddress();
+            String host1 = getIp();
+            String direccionHost = null;
+            if (!host.contains("127.0")) {
+                direccionHost = host;
+            } else if (!host1.equals("0") || !host1.contains("0:0:0")) {
+                direccionHost = host1;
+            }
             String puerto =  "4545";
             String ruta = "./compartido";
             String estadoActual = "0" ;
             String Certificado = "Amigo:"+nombre+"%%"
                     +"AmigoSobreNombre:"+apodo+"%%"
                     +"AmigoLogueoName:"+login+"%%"
-                    + "AmigoIP:"+host+"%%"
+                    + "AmigoIP:"+direccionHost+"%%"
                     +"AmigoPuerto:"+puerto+"%%"
                     ;
             Certificado = Encriptacion.Encriptar(Certificado);
             
             AmigoLocal yo = new AmigoLocal();
             yo.setAmigoCertificado("'"+Certificado+"'");
-            yo.setAmigoIp("'"+host+"'");
+            yo.setAmigoIp("'"+direccionHost+"'");
             yo.setAmigoLogueoName("'"+login+"'");
             yo.setAmigoNombre("'"+nombre+"'");
             yo.setAmigoPassword("'"+contra+"'");
@@ -236,7 +243,7 @@ public class InsertarLocal extends javax.swing.JFrame {
 //            yo.setIdAmigo(Generico.GetNewId("datosnodoactual","IdAmigo"));
             
             yo.insertar();
-        } catch (SQLException ex) {
+        } catch (SQLException | UnknownHostException ex) {
             Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
         }
         Principal pi = new Principal();
@@ -333,7 +340,7 @@ public class InsertarLocal extends javax.swing.JFrame {
         jtUsuarioLogin.setText("");
     }
 
-    private static String getIp() {
+    public static String getIp() {
         try {
             Enumeration e = NetworkInterface.getNetworkInterfaces();
             int ctr = 0;
