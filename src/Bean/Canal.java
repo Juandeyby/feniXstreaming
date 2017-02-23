@@ -5,11 +5,15 @@
  */
 package Bean;
 
-import static Bean.UsuarioLogueado.cn;
+import Local.Conexion.SelectApp;
 import Ruteador.Bean.UsuarioConneccion;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +26,9 @@ public class Canal {
     private boolean activo;
     private ArrayList<Amigo> usuarios;
     private ArrayList<Archivo> archivos;
+    
+    private SelectApp conexion = new SelectApp();
+    private Connection conn = conexion.connect();
 
     public Canal() {
     }
@@ -44,9 +51,8 @@ public class Canal {
                 + "      canales.`idcanal` ='" + idCanal;
 
         try {
-            Statement sent;
-
-            sent = cn.createStatement();
+            
+            Statement sent = conn.createStatement();
             System.out.println(sql);
             ResultSet rs = sent.executeQuery(sql);
             int a = 0;
@@ -68,27 +74,28 @@ public class Canal {
                 usuarios.add(usuario);
                 a++;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            
+        } catch (SQLException e) {
+            Logger.getLogger(Canal.class.getName()).log(Level.SEVERE, null, e);
         }
-         String sql2 ="select * from Archivo where idcanal =  "+ idCanal;
+         String sql2 ="select * from archivo where idcanal =  "+ idCanal;
         try {
-            Statement sent;
-
-            sent = cn.createStatement();
+            
+            Statement sent2 = conn.createStatement();
             System.out.println(sql);
-            ResultSet rs = sent.executeQuery(sql2);
-            while (rs.next()) {
+            ResultSet rs2 = sent2.executeQuery(sql2);
+            while (rs2.next()) {
                  Archivo ar= new Archivo();
-                 ar.setArchivoNombre(rs.getString("archivoNombre"));
-                 ar.setIdAmigoDueño(rs.getString("archivoNombre"));
-                 ar.setIdArchivo(rs.getString("archivoNombre"));
-                 ar.setIdCanal(rs.getString("archivoNombre"));
-                 ar.setMrl(rs.getString("archivoNombre"));
+                 ar.setArchivoNombre(rs2.getString("archivoNombre"));
+                 ar.setIdAmigoDueño(rs2.getString("archivoNombre"));
+                 ar.setIdArchivo(rs2.getString("archivoNombre"));
+                 ar.setIdCanal(rs2.getString("archivoNombre"));
+                 ar.setMrl(rs2.getString("archivoNombre"));
                  archivos.add(ar);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Canal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

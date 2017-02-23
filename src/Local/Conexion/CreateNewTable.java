@@ -21,7 +21,7 @@ public class CreateNewTable {
         
         // SQL statement for creating a new table
         String sql_1 = "CREATE TABLE IF NOT EXISTS amigo (\n"
-                + "	IdAmigo int(11) PRIMARY KEY,\n"
+                + "	IdAmigo INTEGER PRIMARY KEY,\n"
                 + "	AmigoIP char(20) DEFAULT NULL,\n"
                 + "	AmigoPuerto char(20) DEFAULT NULL,\n"
                 + "	AmigoCertificado text,\n"

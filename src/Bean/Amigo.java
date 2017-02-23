@@ -172,13 +172,13 @@ public class Amigo implements Serializable {
 
     public void insertar() throws SQLException {
         //INSERT INTO `empresa`(`IdEmpresa`, `IdEmpresaGrupo`, `EmpRuc`, `EmpNom`, `EmpTel`, `EmpDir`, `EmpEstReg`)
-        String sentIn = " INSERT INTO `datosnodoactual`(`AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoLogueoName`, `AmigoPassword`) "
-                + "Values (" + AmigoIp + "," + AmigoPuerto + "," + AmigoCertificado + "," + AmigoNombre + "," + AmigoSobreNombre + "," + AmigoLogueoName + "," + AmigoPassword + ")";
+        String sentIn = " INSERT INTO datosnodoactual(AmigoIP, AmigoPuerto, AmigoCertificado, AmigoNombre, AmigoSobreNombre, AmigoLogueoName, AmigoPassword) "
+                + "VALUES (" + AmigoIp + "," + AmigoPuerto + "," + AmigoCertificado + "," + AmigoNombre + "," + AmigoSobreNombre + "," + AmigoLogueoName + "," + AmigoPassword + ")";
         System.out.println(sentIn);
         InsertApp command = new InsertApp();
         try (Connection conn = command.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sentIn)) {
-            if (pstmt.executeUpdate() == 1) {
+            if (pstmt.executeUpdate() !=0) {
                 System.out.println("guardado");
             } else {
                 System.out.println("error");

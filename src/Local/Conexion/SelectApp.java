@@ -16,7 +16,7 @@ public class SelectApp {
      * Connect to the test.db database
      * @return the Connection object
      */
-    private Connection connect() {
+    public Connection connect() {
         // SQLite connection string
         String url = "jdbc:sqlite:feniXtreaming.db";
         Connection conn = null;
@@ -41,7 +41,7 @@ public class SelectApp {
             
             // loop through the result set
             while (rs.next()) {
-                System.out.println(rs.getString("AmigoLogueoName") +  "\t" + 
+                System.out.println(rs.getString("IdAmigo") +  "\t" + 
                                    rs.getString("AmigoPassword"));
             }
         } catch (SQLException e) {
