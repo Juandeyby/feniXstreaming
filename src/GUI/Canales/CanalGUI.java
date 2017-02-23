@@ -9,13 +9,15 @@ import Bean.Amigo;
 import GUI.Principal.Principal;
 import Peer2Peer.Bean.Video;
 import Peer2Peer.Point.TestRemoteP2P;
+import Ruteador.Servidor.TestRemote;
 import Utilitarios.Esteticos;
+import de.root1.simon.Lookup;
+import de.root1.simon.Simon;
+import de.root1.simon.exceptions.EstablishConnectionFailed;
+import de.root1.simon.exceptions.LookupFailedException;
 import static java.lang.Thread.sleep;
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.net.UnknownHostException;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -298,7 +300,7 @@ public class CanalGUI extends javax.swing.JFrame {
         ArrayList<Amigo> usuariosConectados = papa.getUsuariosConectados();
         int a = 0;
         for (Amigo amiguito : usuariosConectados) {
-            try {
+        
 
                 if (!amiguito.equals((Amigo) (papa.getUsuario()))) {
                     System.out.println("mis amiguitos estan ahi " + amiguito.getAmigoLogueoName());
@@ -308,11 +310,7 @@ public class CanalGUI extends javax.swing.JFrame {
                         a++;
                     }
                 }
-            } catch (RemoteException ex) {
-                Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NotBoundException ex) {
-                Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           
 
         }
 
@@ -330,18 +328,30 @@ public class CanalGUI extends javax.swing.JFrame {
      * @throws RemoteException
      * @throws NotBoundException
      */
-    private Video QueEstasTransmitiendo(Amigo amiguito) throws RemoteException, NotBoundException {
-        long a = System.currentTimeMillis();
-        Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
-        String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
-        TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
-        Video video = testRemote.OECTmDimeTuVideo();
-        a = System.currentTimeMillis() - a;
-        if (video != null) {
-            video.setLatencia(a);
+    private Video QueEstasTransmitiendo(Amigo amiguito) {
+        try {
+            long a = System.currentTimeMillis();
+            String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
+            Lookup nameLookup = Simon.createNameLookup(amiguito.getAmigoIp(),Integer.parseInt( amiguito.getAmigoPuerto()));
+            
+            
+            TestRemoteP2P testRemote = (TestRemoteP2P)nameLookup.lookup(nombreServer);
+            Video video = testRemote.OECTmDimeTuVideo();
+            a = System.currentTimeMillis() - a;
+            if (video != null) {
+                video.setLatencia(a);
+            }
+            nameLookup.release(testRemote);
+            
+            return video;
+        } catch (LookupFailedException ex) {
+            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EstablishConnectionFailed ex) {
+            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return video;
-
+        return null;
     }
 
     /**
@@ -356,23 +366,28 @@ public class CanalGUI extends javax.swing.JFrame {
      * @see tener en cuenta q no verifica puerto disponivle ni ip dentro de red
      */
     public String sacarMrlVido(Video videito) {
+        
         try {
             Amigo amiguito = videito.getUsuarioDueño();
-            Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
             String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
             System.out.println(nombreServer);
             System.out.println(videito.getMrlLocal() + "    " + videito.getUsuarioDueño());
-            TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
+            Lookup nameLookup = Simon.createNameLookup(amiguito.getAmigoIp(),Integer.parseInt( amiguito.getAmigoPuerto()));
+            
+            
+            TestRemoteP2P testRemote = (TestRemoteP2P) nameLookup.lookup(nombreServer);
 
             String mrl = testRemote.TransmitemeTuVideo(papa.getUsuario().getAmigoIp(), Integer.parseInt(papa.getUsuario().getAmigoPuerto()) + 1);
 
             return mrl;
-        } catch (RemoteException ex) {
+        } catch (UnknownHostException ex) {
             Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotBoundException ex) {
+        } catch (LookupFailedException ex) {
+            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EstablishConnectionFailed ex) {
             Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "";
+       return "";
     }
 
     /**

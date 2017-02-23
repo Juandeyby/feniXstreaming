@@ -6,6 +6,13 @@ import Bean.UsuarioLogueado;
 import Peer2Peer.Point.TestRemoteP2P;
 import Ruteador.Bean.dota;
 import Ruteador.Bean.UsuarioConneccion;
+import Simon.ServerInterface;
+import de.root1.simon.Lookup;
+import de.root1.simon.Simon;
+import de.root1.simon.annotation.SimonRemote;
+import de.root1.simon.exceptions.EstablishConnectionFailed;
+import de.root1.simon.exceptions.LookupFailedException;
+import java.net.UnknownHostException;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
@@ -26,6 +33,8 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+@SimonRemote(value = {TestRemote.class}) 
+
 public class ServerPeticionesEnrutamiento implements TestRemote {
    private ArrayList<Amigo> amigosPresentes = new ArrayList<Amigo>();  
    
@@ -33,22 +42,28 @@ public class ServerPeticionesEnrutamiento implements TestRemote {
     * @see  lanza un nuevo  un hilo para poder identificar los usuarios presentes 
     * @throws  RemoteException   ,  En realidad el flujo normal usa esta exepcion si alguien lo corrige seria genial 
     */
-   public ServerPeticionesEnrutamiento(){
+   public ServerPeticionesEnrutamiento() {
         new Thread(){
             public void run (){
                 while (true){
                     ArrayList<Amigo > quienesEstan = new ArrayList<Amigo>();
                     for (Amigo amiguito : amigosPresentes){
-                      
+                    
                         try {
-                            Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
                             String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
-                             
-                            TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
+                            Lookup nameLookup = Simon.createNameLookup(amiguito.getAmigoIp(),Integer.parseInt( amiguito.getAmigoPuerto()));
+                            
+                            
+                            TestRemoteP2P testRemote = (TestRemoteP2P)nameLookup.lookup(nombreServer);
                             quienesEstan.add(amiguito);
-                        } catch (RemoteException | NotBoundException ex) {
+                        } catch (UnknownHostException ex) {
+                            Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (LookupFailedException ex) {
+                            Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (EstablishConnectionFailed ex) {
                             Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                       
                         
                             
                 
@@ -76,30 +91,30 @@ public class ServerPeticionesEnrutamiento implements TestRemote {
     
     
     }
-    public dota sayHello(String name) throws RemoteException {
+    public dota sayHello(String name)  {
         return new dota();
     
     }
 
     @Override
-    public ArrayList<Amigo> ImHere(Amigo usu) throws RemoteException {
+    public ArrayList<Amigo> ImHere(Amigo usu)  {
         amigosPresentes.add(usu);
         return amigosPresentes;
     }
         @Override
-    public ArrayList<Amigo> ImNotHere(Amigo usu) throws RemoteException {
+    public ArrayList<Amigo> ImNotHere(Amigo usu){
         amigosPresentes.remove(usu);
         return amigosPresentes;
     }
 
 
     @Override
-    public ArrayList<Amigo> WhoIsThere() throws RemoteException {
+    public ArrayList<Amigo> WhoIsThere()  {
         return amigosPresentes;
     }
 
     @Override
-    public ArrayList<Amigo> Login(String user, String password) throws RemoteException {
+    public ArrayList<Amigo> Login(String user, String password){
         UsuarioLogueado usuario = new UsuarioLogueado(user, password);
             if (usuario==null){
             return null;

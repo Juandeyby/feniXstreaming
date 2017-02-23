@@ -11,13 +11,12 @@ import GUI.Principal.Principal;
 import Peer2Peer.Bean.Video;
 import Peer2Peer.Bean.VideoStreaming;
 import Ruteador.Servidor.*;
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+import de.root1.simon.Lookup;
+import de.root1.simon.Simon;
+import de.root1.simon.exceptions.EstablishConnectionFailed;
+import de.root1.simon.exceptions.LookupFailedException;
+import java.net.UnknownHostException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,11 +51,9 @@ public class ClienteP2P extends Thread {
         try {
             while (true) {
                 sleep(3000);
-                try {
+            
                     iniciarEscuchaServer();
-                } catch (NotBoundException ex) {
-                    Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
-                }
+              
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,22 +61,31 @@ public class ClienteP2P extends Thread {
 
     }
 
-    public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        Remote stub = UnicastRemoteObject.exportObject(new ServerPeticionesEnrutamiento(), 0);
-        Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
-        registry.bind("ServerPropio", stub);
+    public static void main(String[] args) throws UnknownHostException, LookupFailedException, EstablishConnectionFailed  {
+     Lookup nameLookup = Simon.createNameLookup("190.168.0.105", 22222);
+        TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
+        nameLookup.release(testRemote);
+
         System.out.println("se llama al server del cliente y esta corriendo");
     }
 
-    public void iniciarEscuchaServer() throws NotBoundException {
+    public void iniciarEscuchaServer() {
+  
         try {
-            Registry registry = LocateRegistry.getRegistry();
-            TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
+            Lookup nameLookup = Simon.createNameLookup("190.168.0.105", 22222);
+            TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
+            
             ArrayList<Amigo> presente = testRemote.WhoIsThere();
             papa.setUsuariosConectados(presente);
-        } catch (RemoteException ex) {
+            nameLookup.release(testRemote);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LookupFailedException ex) {
+            Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EstablishConnectionFailed ex) {
             Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
+
 
     }
 

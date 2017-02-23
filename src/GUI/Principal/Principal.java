@@ -13,8 +13,13 @@ import GUI.TransmitirVideo.TrasmitirVideo;
 import Peer2Peer.Point.ClienteP2P;
 import Peer2Peer.Point.ServerPeticionesP2P;
 import Ruteador.Servidor.ServerPeticionesEnrutamiento;
+import de.root1.simon.Simon;
+import de.root1.simon.exceptions.NameBindingException;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
@@ -26,6 +31,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.Transmitter;
+import javax.swing.JButton;
 
 /**
  *
@@ -50,7 +56,12 @@ public class Principal extends javax.swing.JFrame {
             serverPoint = new ClienteP2P(this);
             serverPoint.start();
             serverPeticiones = new ServerPeticionesP2P();
-     
+            FormatearBoton(jBChat);
+            FormatearBoton(jBAmigos);
+            FormatearBoton(jBCanales);
+            FormatearBoton(jBCompartirDir);
+            FormatearBoton(jBCerrrarSescion1);
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,11 +77,14 @@ public class Principal extends javax.swing.JFrame {
         jBCanales = new javax.swing.JButton();
         jBAmigos = new javax.swing.JButton();
         jBCompartirDir = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        jBCerrrarSescion1 = new javax.swing.JButton();
+        jBChat = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 102, 0));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setBackground(new java.awt.Color(102, 255, 204));
 
         jBCanales.setText("Mis canales");
         jBCanales.addActionListener(new java.awt.event.ActionListener() {
@@ -95,42 +109,44 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jBCerrrarSescion1.setText("Cerrar Sesión");
+        jBCerrrarSescion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCerrrarSescion1ActionPerformed(evt);
+            }
+        });
+
+        jBChat.setText("Chat");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(27, 27, 27)
                 .addComponent(jBCanales, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jBAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jBCompartirDir)
-                .addGap(53, 53, 53))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBCompartirDir, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jBChat, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(jBCerrrarSescion1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBCanales, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jBCompartirDir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 259, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jBChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBCanales, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBCompartirDir, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                        .addComponent(jBCerrrarSescion1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -139,21 +155,15 @@ public class Principal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(162, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -163,7 +173,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(31, 31, 31))
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,6 +201,10 @@ public class Principal extends javax.swing.JFrame {
         TrasmitirVideo trans = TrasmitirVideo.getInstace(this);
         trans.setVisible(true);
     }//GEN-LAST:event_jBCompartirDirActionPerformed
+
+    private void jBCerrrarSescion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCerrrarSescion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBCerrrarSescion1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,10 +247,11 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAmigos;
     private javax.swing.JButton jBCanales;
+    private javax.swing.JButton jBCerrrarSescion1;
+    private javax.swing.JButton jBChat;
     private javax.swing.JButton jBCompartirDir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 
     public UsuarioLogueado getUsuario() {
@@ -287,22 +302,42 @@ public class Principal extends javax.swing.JFrame {
         this.serverPeticiones = serverPeticiones;
     }
     public void iniciarServer(){
+      
+            
+             
         try {
-            Remote stub = UnicastRemoteObject.exportObject(serverPeticiones,Integer.parseInt( usuario.getAmigoPuerto()));
-            Registry registry = LocateRegistry.createRegistry(Integer.parseInt(usuario.getAmigoPuerto()));
+            System.out.println("se llama al server y esta ");
+            
+            
+            
+            // create the server's registry ...
+            de.root1.simon.Registry registry = Simon.createRegistry(22222);
+            registry.start();
+            // ... where we can bind the serverobject to
+            registry.bind("Enrutador", serverPeticiones);
+            
             String  nombreServer ="rmi://"+usuario.getAmigoIp()+":"+usuario.getAmigoPuerto()+"/server";
-           System.out.println(usuario.getAmigoPuerto());
-                      System.out.println(nombreServer);
-
-            registry.bind(nombreServer, stub);
+            System.out.println(usuario.getAmigoPuerto());
+            System.out.println(nombreServer);
+            
+            
             System.out.println("se llama al server del cliente y esta corriendo");
-        } catch (AlreadyBoundException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AccessException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
+        } catch (NameBindingException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }  
     
+    
+    
+    /***
+     * @see formateando botones de la app
+     * @param boton 
+     */
+    private static void FormatearBoton(JButton boton){
+        boton.setBackground(Color.white);
+        boton.setForeground(Color.black);
+        boton.setFont(new Font("utopia",Font.BOLD, 12));
     }
 }

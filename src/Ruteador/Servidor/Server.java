@@ -1,18 +1,30 @@
 package Ruteador.Servidor;
 
-import java.rmi.AlreadyBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+
+import Simon.ServerInterfaceImpl;
+import java.io.IOException;
+import java.net.UnknownHostException;
+
+import de.root1.simon.Registry;
+import de.root1.simon.Simon;
+import de.root1.simon.exceptions.NameBindingException;
+
 public class Server extends Thread{
     
    
-    public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        Remote stub = UnicastRemoteObject.exportObject(new ServerPeticionesEnrutamiento(), 0);
-        Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
-        registry.bind("Enrutador", stub);
+    public static void main(String[] args) throws NameBindingException, IOException  {
+      
         System.out.println("se llama al server y esta ");
+        
+        
+           ServerPeticionesEnrutamiento serverImpl = new ServerPeticionesEnrutamiento();
+
+        // create the server's registry ...
+        Registry registry = Simon.createRegistry(22222);
+registry.start();
+        // ... where we can bind the serverobject to
+        registry.bind("Enrutador", serverImpl);
+
+        
     }
 }

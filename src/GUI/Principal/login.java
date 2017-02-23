@@ -9,6 +9,10 @@ import Bean.Amigo;
 import Bean.UsuarioLogueado;
 import GUI.NodoLocal.InsertarLocal;
 import Ruteador.Servidor.TestRemote;
+import de.root1.simon.Lookup;
+import de.root1.simon.Simon;
+import de.root1.simon.exceptions.EstablishConnectionFailed;
+import de.root1.simon.exceptions.LookupFailedException;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -196,8 +200,8 @@ public class login extends javax.swing.JFrame {
         if (usuario != null) {
 
             try {
-                Registry registry = LocateRegistry.getRegistry();
-                TestRemote testRemote = (TestRemote) registry.lookup("Enrutador");
+                 Lookup nameLookup = Simon.createNameLookup("192.168.0.102", 22222);
+        TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
                 usuario = new UsuarioLogueado(usuName, contra);
 
                 if (usuario.getAmigoIp() == null) {
@@ -219,6 +223,8 @@ public class login extends javax.swing.JFrame {
                 int porto = Registry.REGISTRY_PORT + 9000 + random;
                 usuario.setAmigoPuerto("" + porto);
                 ArrayList<Amigo> presentes = testRemote.ImHere(usuario);
+                        nameLookup.release(testRemote);
+
                 //Amigo.CambiarAmigos(presentes);
                 if (presentes == null) {
                     JOptionPane.showMessageDialog(null, "Datos Incorrectos");
@@ -243,9 +249,11 @@ public class login extends javax.swing.JFrame {
                 System.out.print("creacion del objeto " + a);
                 this.setVisible(false);
 
-            } catch (RemoteException | NotBoundException ex) {
+            }  catch (UnknownHostException ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnknownHostException ex) {
+            } catch (LookupFailedException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (EstablishConnectionFailed ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
 

@@ -19,10 +19,7 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class ServerP2P {
     public ServerP2P (String name) throws RemoteException, AlreadyBoundException{
-         Remote stub = UnicastRemoteObject.exportObject(new ServerPeticionesEnrutamiento(), 0);
-        Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
-        registry.bind(name, stub);
-        System.out.println("se llama al server del cliente y esta corriendo");
+       
     
     }
 }

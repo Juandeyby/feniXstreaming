@@ -8,6 +8,7 @@ import Local.Conexion.SelectApp;
 import Peer2Peer.Bean.Video;
 import Ruteador.Bean.dota;
 import Ruteador.Bean.UsuarioConneccion;
+import de.root1.simon.annotation.SimonRemote;
 import java.rmi.Remote;
 
 /*
@@ -19,10 +20,7 @@ import java.rmi.Remote;
  *
  * @author USUARIO
  */
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,6 +35,7 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.player.headless.HeadlessMediaPlayer;
+@SimonRemote(value = {TestRemoteP2P.class}) 
 
 public class ServerPeticionesP2P implements TestRemoteP2P {
 
@@ -46,7 +45,7 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
     
 
     @Override
-    public dota sayHello(String name) throws RemoteException {
+    public dota sayHello(String name) {
         return new dota();
     }
 
@@ -77,7 +76,7 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
      * se usa en la clase canalGUI
      * @see trasmitira el video al host y puerto indicado , el metodo de transferencia sera rtp
      */
-    public String TransmitemeTuVideo(String host, int port) throws RemoteException {
+    public String TransmitemeTuVideo(String host, int port){
         String mrl = VidoeoUnico.getMrlLocal();
 
          String media = mrl;
@@ -118,7 +117,7 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
 
 
     @Override
-    public String verificaAmistad(String certificadoOtro) throws RemoteException {
+    public String verificaAmistad(String certificadoOtro)  {
         String condicion = null;
         Principal pri = new Principal();
         Amigo amigo = pri.getUsuario();
