@@ -216,7 +216,7 @@ public class TrasmitirVideo extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-      //  new NativeDiscovery().discover();
+        new NativeDiscovery().discover();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

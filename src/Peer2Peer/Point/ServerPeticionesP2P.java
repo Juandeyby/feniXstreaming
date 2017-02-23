@@ -36,6 +36,7 @@ import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import uk.co.caprica.vlcj.player.headless.HeadlessMediaPlayer;
 
 public class ServerPeticionesP2P implements TestRemoteP2P {
 
@@ -70,28 +71,51 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
         this.VidoeoUnico = VidoeoUnico;
     }
 
-    @Override
+
+    /***
+     * @return mrl  :el mrl del punto del cual se podra recepcionar 
+     * se usa en la clase canalGUI
+     * @see trasmitira el video al host y puerto indicado , el metodo de transferencia sera rtp
+     */
     public String TransmitemeTuVideo(String host, int port) throws RemoteException {
         String mrl = VidoeoUnico.getMrlLocal();
 
-        String[] localOptions = {formatRtpStream(host, port), ":no-sout-rtp-sap", ":no-sout-standard-sap", ":sout-all", ":sout-keep",};
-        MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
-        EmbeddedMediaPlayer localMediaPlayer = mediaPlayerFactory.newEmbeddedMediaPlayer();
+         String media = mrl;
+        String options = formatRtpStream(host, port);
 
-        localMediaPlayer.playMedia(mrl, localOptions);
+
+        MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+        HeadlessMediaPlayer mediaPlayer = mediaPlayerFactory.newHeadlessMediaPlayer();
+
+        mediaPlayer.playMedia(media,
+            options,
+            ":no-sout-rtp-sap",
+            ":no-sout-standard-sap",
+            ":sout-all",
+            ":sout-keep"
+        );
+        mrl = "rtp://@" +host+":"+port;
 
         return mrl;
     }
-
-    private static String formatRtpStream(String serverAddress, int serverPort) {
+ /***
+  * 
+  * @param serverAddress  parametro de entrada es el host al cual queremos trasminitr
+  * @param serverPort  puerto del host al qur se desea trasmiti
+  * @return valor formateado para la transmisicon via rtp
+  */
+     private static String formatRtpStream(String serverAddress, int serverPort) {
         StringBuilder sb = new StringBuilder(60);
-        sb.append(":sout=#transcode{vcodec=h264,vb=500,width=480,height=360,acodec=mp3,ab=128,channels=2,samplerate=44100}:duplicate{dst=display,dst=rtp{dst=");
+
+        sb.append(":sout=#transcode{vcodec=mp4v,vb=2048,scale=1,acodec=mpga,ab=128,channels=2,samplerate=44100}:rtp{dst=");
         sb.append(serverAddress);
         sb.append(",port=");
         sb.append(serverPort);
-        sb.append(",mux=ts}}");
+        sb.append(",mux=ts}");
         return sb.toString();
     }
+
+
 
     @Override
     public String verificaAmistad(String certificadoOtro) throws RemoteException {

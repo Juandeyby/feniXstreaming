@@ -10,6 +10,7 @@ import GUI.Principal.Principal;
 import Peer2Peer.Bean.Video;
 import Peer2Peer.Point.TestRemoteP2P;
 import static java.lang.Thread.sleep;
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,17 +24,15 @@ import javax.swing.DefaultListModel;
  *
  * @author USUARIO
  */
-
-  
 public class CanalGUI extends javax.swing.JFrame {
 
-    private Principal  papa;
+    private Principal papa;
+
     public CanalGUI() {
-      
+
         initComponents();
-          iniMio();
-        
-        
+        iniMio();
+        panelVideo1.iniMio();
     }
 
     /**
@@ -48,7 +47,7 @@ public class CanalGUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        jListVideos = new javax.swing.JList();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jBVer = new javax.swing.JButton();
@@ -59,12 +58,12 @@ public class CanalGUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        jListVideos.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "archivo 1", "video 2", "video 43", "musica 4", " " };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(jListVideos);
 
         jLabel2.setText("Archivos Compartido");
 
@@ -159,47 +158,33 @@ public class CanalGUI extends javax.swing.JFrame {
 
     private void jBVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerActionPerformed
         // TODO add your handling code here:
-        int a= jList1.getSelectedIndex();
-     
-        if (a<0) return ;
-        System.err.println("eres mas manco de lo que crei");
-        Video videito =   (Video)( jList1.getModel().getElementAt(a));
-        String mrl="";
-        try {
-            mrl = sacarMrlVido(videito);
-        } catch (RemoteException ex) {
-            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        panelVideo1.iniMio();
-        panelVideo1.reproducir(mrl);
-        System.out.println("pase EEE ");
+     verVideoSeleccionado();
     }//GEN-LAST:event_jBVerActionPerformed
-    public  void iniMio(){
- new Thread (){
-          @Override
-          public  void run(){
-              while (true){if (papa!=null){
-              llenarVideos();
-                                System.err.println("oie ZHy");
-              }
-                  try {
-                      sleep(5000);
-                  } catch (InterruptedException ex) {
-                      Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-                  }
-                    if (papa==null){
-                  System.err.println("ala mierda ");
-              }
-              
-            
-              }
-          }
-         }.start();
-            
-    
+    public void iniMio() {
+        new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (papa != null) {
+                        llenarVideos();
+                        System.err.println("oie ZHy");
+                    }
+
+                    if (papa == null) {
+                        System.err.println("ala mierda ");
+                    }
+                    try {
+                        sleep(5000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }
+        }.start();
+
     }
+
     /**
      * @param args the command line arguments
      */
@@ -241,83 +226,118 @@ public class CanalGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList1;
+    private javax.swing.JList jListVideos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private GUI.TransmitirVideo.PanelVideo panelVideo1;
     // End of variables declaration//GEN-END:variables
 
-     public  void  estado(int a ){
-         if (a ==1){
-              this.setVisible(true);
-         
-         }
-     
-     }
+    public void estado(int a) {
+        if (a == 1) {
+            this.setVisible(true);
+
+        }
+
+    }
 
     public Principal getPapa() {
         return papa;
     }
-
+   /***
+    * 
+    * @param papa
+    * @return  void   
+    * 
+    */
     public void setPapa(Principal papa) {
         this.papa = papa;
     }
 
-    
     private void llenarVideos() {
-        
-   DefaultListModel model = new DefaultListModel();
 
-       ArrayList<Amigo> usuariosConectados = papa.getUsuariosConectados();
-      int a = 0 ;
-       for (Amigo amiguito:usuariosConectados){
-       try {
-          
+        DefaultListModel model = new DefaultListModel();
 
-           if (!amiguito.equals((Amigo)(papa.getUsuario()))){
-           Video  videito =QueEstasTransmitiendo(amiguito);
-          if (videito!=null&& videito.getMrlLocal()!=null){
-           model.add(a,videito);
-           a++;}}
-       } catch (RemoteException ex) {
-           Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-       } catch (NotBoundException ex) {
-           Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-       }
-            
-       
-       }
-       
-       
-       /*
+        ArrayList<Amigo> usuariosConectados = papa.getUsuariosConectados();
+        int a = 0;
+        for (Amigo amiguito : usuariosConectados) {
+            try {
+
+                if (!amiguito.equals((Amigo) (papa.getUsuario()))) {
+                    System.out.println("mis amiguitos estan ahi " + amiguito.getAmigoLogueoName());
+                    Video videito = QueEstasTransmitiendo(amiguito);
+                    if (videito != null && videito.getMrlLocal() != null) {
+                        model.add(a, videito);
+                        a++;
+                    }
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NotBoundException ex) {
+                Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        /*
          Borrando de jListNoEnviado
          */
-
-        jList1.setModel(model);    
+        jListVideos.setModel(model);
     }
 
     private Video QueEstasTransmitiendo(Amigo amiguito) throws RemoteException, NotBoundException {
-            Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(),Integer.parseInt(amiguito.getAmigoPuerto()));
-            String  nombreServer =" rmi://"+amiguito.getAmigoIp()+":"+amiguito.getAmigoPuerto()+"/server";
-            TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
-            Video video =testRemote.OECTmDimeTuVideo();
-            return video ;
-    
-    
+        Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
+        String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
+        TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
+        Video video = testRemote.OECTmDimeTuVideo();
+        return video;
+
     }
-  public String  sacarMrlVido(Video videito) throws RemoteException, RemoteException, NotBoundException{
-  Amigo amiguito = videito.getUsuarioDueño();
-   Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(),Integer.parseInt(amiguito.getAmigoPuerto()));
-            String  nombreServer =" rmi://"+amiguito.getAmigoIp()+":"+amiguito.getAmigoPuerto()+"/server";
-                        System.out.println(nombreServer);
+ /***
+  * 
+  * @param videito
+  * @return String sacando el mrl del video  para este caso  tendra la forma  "rtp://@192.168.2.45:3333"
+  * @throws RemoteException
+  * @throws RemoteException
+  * @throws NotBoundException 
+  * @see  tener en cuenta q no verifica puerto disponivle ni ip dentro de red 
+  */
+    public String sacarMrlVido(Video videito)  {
+        try {
+            Amigo amiguito = videito.getUsuarioDueño();
+            Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
+            String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
+            System.out.println(nombreServer);
+            System.out.println(videito.getMrlLocal()+"    "+ videito.getUsuarioDueño());
             TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
-    
-            String mrl =testRemote.TransmitemeTuVideo(papa.getUsuario().getAmigoIp(), Integer.parseInt(papa.getUsuario().getAmigoPuerto())+1);
-    
+            
+            String mrl = testRemote.TransmitemeTuVideo(papa.getUsuario().getAmigoIp(), Integer.parseInt(papa.getUsuario().getAmigoPuerto()) + 1);
+            
             return mrl;
-    
-  
-  
-  }
+        } catch (RemoteException ex) {
+            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return "";
+    }
+      /***
+       * @see estamos ordenando los datos del boton 
+       */  
+    private void verVideoSeleccionado() {
+   int a = jListVideos.getSelectedIndex();
+
+        if (a < 0) {
+            return;
+        }
+        System.err.println("eres mas manco de lo que crei");
+        Video videito = (Video) (jListVideos.getModel().getElementAt(a));
+        String mrl = "";
+      
+            mrl = sacarMrlVido(videito);
+     
+        System.out.println(mrl);
+        panelVideo1.iniMio();
+        panelVideo1.reproducir(mrl);
+        System.out.println("pase EEE ");    }
 }

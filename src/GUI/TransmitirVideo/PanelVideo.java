@@ -19,7 +19,7 @@ public final class PanelVideo extends javax.swing.JPanel {
      * Creates new form PanelVideo
      */
    private EmbeddedMediaPlayerComponent player;
-
+ private String MrlPanel ="" ;
     public PanelVideo() {
         initComponents();
         iniMio();
@@ -73,6 +73,11 @@ this. setVisible(true);
         btnMute.setText("Mute");
 
         btnPlay.setText("Play");
+        btnPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayActionPerformed(evt);
+            }
+        });
 
         btnPause.setText("Pause");
         btnPause.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +160,14 @@ this. setVisible(true);
 
     }//GEN-LAST:event_btnPauseActionPerformed
 
+    private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
+                    player.getMediaPlayer().playMedia(MrlPanel);    
+                    sldVolumen.setValue(  player.getMediaPlayer().getVolume() );
+                    sldProgress.setEnabled(true);
+                
+ // TODO add your handling code here:
+    }//GEN-LAST:event_btnPlayActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnMute;
@@ -168,8 +181,9 @@ this. setVisible(true);
     // End of variables declaration//GEN-END:variables
 
  public void reproducir( String mrl ){
-  
+     MrlPanel= mrl;
         player.getMediaPlayer().playMedia(mrl);    
+        player.getMediaPlayer().getMediaDetails();
         sldVolumen.setValue(  player.getMediaPlayer().getVolume() );
         sldProgress.setEnabled(true);
  }
@@ -182,6 +196,14 @@ public static void main (String args[]){
 frame.setVisible(true);
 
 }
+
+    public String getMrlPanel() {
+        return MrlPanel;
+    }
+
+    public void setMrlPanel(String MrlPanel) {
+        this.MrlPanel = MrlPanel;
+    }
 
 
 }
