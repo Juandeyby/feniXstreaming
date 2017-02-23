@@ -28,7 +28,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public class ServerPeticionesEnrutamiento implements TestRemote {
    private ArrayList<Amigo> amigosPresentes = new ArrayList<Amigo>();  
-    public ServerPeticionesEnrutamiento(){
+   
+   /***
+    * @see  lanza un nuevo  un hilo para poder identificar los usuarios presentes 
+    * @throws  RemoteException   ,  En realidad el flujo normal usa esta exepcion si alguien lo corrige seria genial 
+    */
+   public ServerPeticionesEnrutamiento(){
         new Thread(){
             public void run (){
                 while (true){

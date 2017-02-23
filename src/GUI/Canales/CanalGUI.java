@@ -174,20 +174,22 @@ public class CanalGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-/***
- * 
- * @param evt 
- * @see  se llama  a los metodos    ver video seleccionado 
- */
+/**
+     * *
+     *
+     * @param evt
+     * @see se llama a los metodos ver video seleccionado
+     */
     private void jBVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerActionPerformed
         // TODO add your handling code here:
-    String mrl  =verVideoSeleccionado();
-     transmitirVideo(mrl);
+        String mrl = verVideoSeleccionado();
+        transmitirVideo(mrl);
     }//GEN-LAST:event_jBVerActionPerformed
- /***
-  *  @see  inio personalisado de la interfaz , en el se crea un nuevo hilo 
-  * la tabla de videos 
-  */
+    /**
+     * *
+     * @see iniMio personalisado de la interfaz , en el se crea un nuevo hilo la
+     * tabla de videos
+     */
     public void iniMio() {
         new Thread() {
             @Override
@@ -273,18 +275,22 @@ public class CanalGUI extends javax.swing.JFrame {
     public Principal getPapa() {
         return papa;
     }
-   /***
-    * 
-    * @param papa
-    * @return  void   
-    * 
-    */
+
+    /**
+     * *
+     *
+     * @param papa
+     * @return void
+     *
+     */
     public void setPapa(Principal papa) {
         this.papa = papa;
     }
-/***
- * llena la caja de los videos  disponibles en este momento
- */
+
+    /**
+     * *
+     * llena la caja de los videos disponibles en este momento
+     */
     private void llenarVideos() {
 
         DefaultListModel model = new DefaultListModel();
@@ -315,58 +321,68 @@ public class CanalGUI extends javax.swing.JFrame {
          */
         jListVideos.setModel(model);
     }
-/***
- * 
- * @param amiguito amigo al cual le estamos preguntando informacion 
- * @return Video que el servidor del amiguito dice q esta trasmitiendo 
- * @throws RemoteException
- * @throws NotBoundException 
- */
+
+    /**
+     * *
+     *
+     * @param amiguito amigo al cual le estamos preguntando informacion
+     * @return Video que el servidor del amiguito dice q esta trasmitiendo
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
     private Video QueEstasTransmitiendo(Amigo amiguito) throws RemoteException, NotBoundException {
-        long  a = System.currentTimeMillis();
+        long a = System.currentTimeMillis();
         Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
         String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
         TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
         Video video = testRemote.OECTmDimeTuVideo();
-        a=System.currentTimeMillis()-a;
-        video.setLatencia(a);
+        a = System.currentTimeMillis() - a;
+        if (video != null) {
+            video.setLatencia(a);
+        }
         return video;
 
     }
- /***
-  * 
-  * @param videito
-  * @return String sacando el mrl del video  para este caso  tendra la forma  "rtp://@192.168.2.45:3333"
-  * @throws RemoteException
-  * @throws RemoteException
-  * @throws NotBoundException 
-  * @see  tener en cuenta q no verifica puerto disponivle ni ip dentro de red 
-  */
-    public String sacarMrlVido(Video videito)  {
+
+    /**
+     * *
+     *
+     * @param videito
+     * @return String sacando el mrl del video para este caso tendra la forma
+     * "rtp://@192.168.2.45:3333"
+     * @throws RemoteException
+     * @throws RemoteException
+     * @throws NotBoundException
+     * @see tener en cuenta q no verifica puerto disponivle ni ip dentro de red
+     */
+    public String sacarMrlVido(Video videito) {
         try {
             Amigo amiguito = videito.getUsuarioDueño();
             Registry registry = LocateRegistry.getRegistry(amiguito.getAmigoIp(), Integer.parseInt(amiguito.getAmigoPuerto()));
             String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
             System.out.println(nombreServer);
-            System.out.println(videito.getMrlLocal()+"    "+ videito.getUsuarioDueño());
+            System.out.println(videito.getMrlLocal() + "    " + videito.getUsuarioDueño());
             TestRemoteP2P testRemote = (TestRemoteP2P) registry.lookup(nombreServer);
-            
+
             String mrl = testRemote.TransmitemeTuVideo(papa.getUsuario().getAmigoIp(), Integer.parseInt(papa.getUsuario().getAmigoPuerto()) + 1);
-            
+
             return mrl;
         } catch (RemoteException ex) {
             Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotBoundException ex) {
             Logger.getLogger(CanalGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         return "";
     }
-      /***
-       * @see estamos ordenando los datos del boton  ver
-       * @return  String   retorna el mrl con el cual se esta trasmitiendo  el video seleccionado
-       */  
-    private String  verVideoSeleccionado() {
-   int a = jListVideos.getSelectedIndex();
+
+    /**
+     * *
+     * @see estamos ordenando los datos del boton ver
+     * @return String retorna el mrl con el cual se esta trasmitiendo el video
+     * seleccionado
+     */
+    private String verVideoSeleccionado() {
+        int a = jListVideos.getSelectedIndex();
 
         if (a < 0) {
             return "";
@@ -374,9 +390,9 @@ public class CanalGUI extends javax.swing.JFrame {
         System.err.println("eres mas manco de lo que crei");
         Video videito = (Video) (jListVideos.getModel().getElementAt(a));
         String mrl = "";
-      
-            mrl = sacarMrlVido(videito);
-     
+
+        mrl = sacarMrlVido(videito);
+
         System.out.println(mrl);
         panelVideo1.iniMio();
         panelVideo1.reproducir(mrl);
@@ -384,15 +400,18 @@ public class CanalGUI extends javax.swing.JFrame {
         return mrl;
 
     }
-    /***
-     * @see cambia el video del servidor a un valor diferente de nulo para q sea buscado 
-     * @param mrl  fuente del video puede ser local o  reenviar transmision 
+
+    /**
+     * *
+     * @see cambia el video del servidor a un valor diferente de nulo para q sea
+     * buscado
+     * @param mrl fuente del video puede ser local o reenviar transmision
      */
-    private  void transmitirVideo(String mrl){
-    
-      Video videoito= new Video(papa.getUsuario(), mrl); 
+    private void transmitirVideo(String mrl) {
+
+        Video videoito = new Video(papa.getUsuario(), mrl);
         papa.getServerPeticiones().setVidoeoUnico(videoito);
         JOptionPane.showMessageDialog(null, " ala bien estas trabsmitiendo");
-    
+
     }
 }
