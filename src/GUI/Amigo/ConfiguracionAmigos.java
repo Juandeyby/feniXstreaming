@@ -6,6 +6,7 @@
 package GUI.Amigo;
 
 import GUI.Principal.Principal;
+import Local.Conexion.SelectApp;
 import Peer2Peer.Point.TestRemoteP2P;
 import Ruteador.Servidor.TestRemote;
 import java.awt.Dimension;
@@ -15,6 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -299,7 +301,7 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConfiguracionAmigos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(ConfiguracionAmigos.class.getName()).log(Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -392,14 +394,18 @@ public class ConfiguracionAmigos extends javax.swing.JFrame {
             String certiAmigo = main.getUsuario().getAmigoCertificado();
             int idAmigo = main.getUsuario().getIdAmigo();
             
+            SelectApp conexion = new SelectApp();
+            Connection conn = conexion.connect();
             
-            Connection cn = Mysql.getConection();
             String sentIn = " INSERT INTO `amigo`(`AmigoIP`, `AmigoPuerto`, `AmigoCertificado`, `AmigoNombre`, `AmigoSobreNombre`, `AmigoCondicion`,`AmigoDeQueNodo`)";
             sentIn = sentIn + "Values (" + ipAmigo + "," + puertoAmigo + "," + certiAmigo + "," + nombreAmigo + "," + apodoAmigo + "," + condicion + "," + idAmigo + ")";
             System.out.println(sentIn);
-            Statement sent = cn.createStatement();
-            sent.executeUpdate(sentIn);
-            System.out.println("Guardado");
+            PreparedStatement pstmt = conn.prepareStatement(sentIn);
+            if (pstmt.executeUpdate() != 0) {
+                System.out.println("Guardado");
+            } else {
+                System.out.println("error");
+            }
             
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionAmigos.class.getName()).log(Level.SEVERE, null, ex);

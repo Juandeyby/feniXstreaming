@@ -12,8 +12,11 @@ import Utilitarios.Generico;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -208,8 +211,8 @@ public class InsertarLocal extends javax.swing.JFrame {
             String  nombre  =   jTNombrePila.getText();
             String  apodo = jTApodo.getText();
             String login = jtUsuarioLogin.getText();
-            String   contra = jtContra.getText();
-            String host = InetAddress.getLocalHost().getHostAddress();
+            String  contra = jtContra.getText();
+            String host = getIp();
             String puerto =  "4545";
             String ruta = "./compartido";
             String estadoActual = "0" ;
@@ -233,8 +236,6 @@ public class InsertarLocal extends javax.swing.JFrame {
 //            yo.setIdAmigo(Generico.GetNewId("datosnodoactual","IdAmigo"));
             
             yo.insertar();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -331,5 +332,31 @@ public class InsertarLocal extends javax.swing.JFrame {
         jtContra.setText("");
         jtUsuarioLogin.setText("");
     }
- 
+
+    private static String getIp() {
+        try {
+            Enumeration e = NetworkInterface.getNetworkInterfaces();
+            int ctr = 0;
+            String host = null;
+            while (e.hasMoreElements()) {
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration ee = n.getInetAddresses();
+                while (ee.hasMoreElements() && ctr < 3) {
+                    ctr++;
+                    if (ctr == 3) {
+                        break;
+                    }
+                    InetAddress i = (InetAddress) ee.nextElement();
+                    if (ctr == 2) {
+                        host = i.getHostAddress();
+                    }
+                    
+                }
+            }
+            return host;
+        } catch (SocketException ex) {
+            Logger.getLogger(InsertarLocal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

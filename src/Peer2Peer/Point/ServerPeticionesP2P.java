@@ -4,7 +4,7 @@ import Ruteador.Servidor.*;
 import Bean.Amigo;
 import Bean.UsuarioLogueado;
 import GUI.Principal.Principal;
-import Local.Conexion.Mysql;
+import Local.Conexion.SelectApp;
 import Peer2Peer.Bean.Video;
 import Ruteador.Bean.dota;
 import Ruteador.Bean.UsuarioConneccion;
@@ -42,6 +42,7 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
     private ArrayList<Video> videos = new ArrayList<Video>();
     private Video VidoeoUnico;
     private ArrayList<EmbeddedMediaPlayer> video = new ArrayList<>();
+    
 
     @Override
     public dota sayHello(String name) throws RemoteException {
@@ -94,26 +95,25 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
 
     @Override
     public String verificaAmistad(String certificadoOtro) throws RemoteException {
+        String condicion = null;
         Principal pri = new Principal();
         Amigo amigo = pri.getUsuario();
-        String sql = "select AmigoCondicion from  amigo  where "
-                + " AmigoDeQueNodo = '" + amigo.getIdAmigo() + "' and AmigoCertificado = '"
-                + certificadoOtro + "'";
         try {
-            Connection cn = Mysql.getConection();
-            Statement sent;
-            sent = cn.createStatement();
+            String sql = "select AmigoCondicion from  amigo  where "
+                    + " AmigoDeQueNodo = '" + amigo.getIdAmigo() + "' and AmigoCertificado = '"
+                    + certificadoOtro + "'";
+
+            SelectApp conexion = new SelectApp();
+            Connection conn = conexion.connect();
+            Statement sent = conn.createStatement();
             System.out.println(sql);
             ResultSet rs = sent.executeQuery(sql);
             if (rs.next()) {
-                String condicion = rs.getString(1);
-                return condicion;
-            }else{
-                return null;
+                condicion = rs.getString(1);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ServerPeticionesP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return condicion;
     }
 }

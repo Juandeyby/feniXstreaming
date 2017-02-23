@@ -204,7 +204,7 @@ public class AgregarAmigo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarAmigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(AgregarAmigo.class.getName()).log(Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
