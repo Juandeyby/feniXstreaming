@@ -178,7 +178,7 @@ public class Amigo implements Serializable {
         InsertApp command = new InsertApp();
         try (Connection conn = command.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sentIn)) {
-            if (pstmt.executeUpdate() !=0) {
+            if (pstmt.executeUpdate() != 0) {
                 System.out.println("guardado");
             } else {
                 System.out.println("error");
