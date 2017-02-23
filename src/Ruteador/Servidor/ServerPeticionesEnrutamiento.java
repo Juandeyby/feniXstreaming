@@ -46,23 +46,34 @@ public class ServerPeticionesEnrutamiento implements TestRemote {
         new Thread(){
             public void run (){
                 while (true){
+                      try {
+                        sleep(3000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     ArrayList<Amigo > quienesEstan = new ArrayList<Amigo>();
                     for (Amigo amiguito : amigosPresentes){
                     
-                        try {
+                     
                             String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
-                            Lookup nameLookup = Simon.createNameLookup(amiguito.getAmigoIp(),Integer.parseInt( amiguito.getAmigoPuerto()));
-                            
-                            
-                            TestRemoteP2P testRemote = (TestRemoteP2P)nameLookup.lookup(nombreServer);
-                            quienesEstan.add(amiguito);
+                            Lookup nameLookup = null;
+                        try {
+                            nameLookup = Simon.createNameLookup(amiguito.getAmigoIp(),Integer.parseInt( amiguito.getAmigoPuerto()));
                         } catch (UnknownHostException ex) {
                             Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                              TestRemoteP2P testRemote = null;
+                        try {
+                            testRemote = (TestRemoteP2P)nameLookup.lookup(nombreServer);
                         } catch (LookupFailedException ex) {
                             Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (EstablishConnectionFailed ex) {
                             Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                       
+                        if(testRemote!=null)
+                            quienesEstan.add(amiguito);
+                     
                        
                         
                             
@@ -70,11 +81,8 @@ public class ServerPeticionesEnrutamiento implements TestRemote {
                 
                 }
                     amigosPresentes= quienesEstan;
-                    try {
-                        sleep(3000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(ServerPeticionesEnrutamiento.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                  
+                    System.out.println("asdasdads ");
                     for (Amigo  amiguito :amigosPresentes){
                         System.out.println("hola soy el amigo "+amiguito.getAmigoLogueoName()+" y estoy vivito y coleando ");
                     

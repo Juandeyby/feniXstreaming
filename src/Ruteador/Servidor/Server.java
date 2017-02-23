@@ -6,8 +6,9 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import de.root1.simon.Registry;
-import de.root1.simon.Simon;
-import de.root1.simon.exceptions.NameBindingException;
+import de.root1.simon.Simon;import de.root1.simon.exceptions.NameBindingException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 
 public class Server extends Thread{
     
@@ -20,8 +21,8 @@ public class Server extends Thread{
            ServerPeticionesEnrutamiento serverImpl = new ServerPeticionesEnrutamiento();
 
         // create the server's registry ...
-        Registry registry = Simon.createRegistry(22222);
-registry.start();
+        Registry registry = Simon.createRegistry(InetAddress.getLocalHost(),22222);
+        registry.start();
         // ... where we can bind the serverobject to
         registry.bind("Enrutador", serverImpl);
 

@@ -50,7 +50,7 @@ public class ClienteP2P extends Thread {
     public void run() {
         try {
             while (true) {
-                sleep(3000);
+                sleep(1000);
             
                     iniciarEscuchaServer();
               
@@ -62,7 +62,7 @@ public class ClienteP2P extends Thread {
     }
 
     public static void main(String[] args) throws UnknownHostException, LookupFailedException, EstablishConnectionFailed  {
-     Lookup nameLookup = Simon.createNameLookup("190.168.0.105", 22222);
+     Lookup nameLookup = Simon.createNameLookup("190.168.0.102", 22222);
         TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
         nameLookup.release(testRemote);
 
@@ -72,12 +72,14 @@ public class ClienteP2P extends Thread {
     public void iniciarEscuchaServer() {
   
         try {
-            Lookup nameLookup = Simon.createNameLookup("190.168.0.105", 22222);
+           
+            Lookup nameLookup = Simon.createNameLookup("192.168.43.105", 22222);
             TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
             
             ArrayList<Amigo> presente = testRemote.WhoIsThere();
+                                    nameLookup.release(testRemote);
+
             papa.setUsuariosConectados(presente);
-            nameLookup.release(testRemote);
         } catch (UnknownHostException ex) {
             Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
         } catch (LookupFailedException ex) {

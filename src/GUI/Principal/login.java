@@ -200,7 +200,7 @@ public class login extends javax.swing.JFrame {
         if (usuario != null) {
 
             try {
-                 Lookup nameLookup = Simon.createNameLookup("192.168.0.102", 22222);
+                 Lookup nameLookup = Simon.createNameLookup("192.168.43.105", 22222);
         TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
                 usuario = new UsuarioLogueado(usuName, contra);
 
@@ -222,7 +222,18 @@ public class login extends javax.swing.JFrame {
 
                 int porto = Registry.REGISTRY_PORT + 9000 + random;
                 usuario.setAmigoPuerto("" + porto);
-                ArrayList<Amigo> presentes = testRemote.ImHere(usuario);
+               
+                long a = System.nanoTime();
+                
+                Principal prin = new Principal();
+                                prin.setUsuario(usuario);
+
+                               prin.iniciarServer();
+                                    prin.IniciarCliente();
+               
+               ArrayList<Amigo> presentes = testRemote.ImHere(usuario);
+                                                   prin.setUsuariosConectados(presentes);
+
                         nameLookup.release(testRemote);
 
                 //Amigo.CambiarAmigos(presentes);
@@ -235,15 +246,10 @@ public class login extends javax.swing.JFrame {
                     System.out.println("soy el amiguito " + amiguito.getAmigoNombre() + " y estoy presente");
 
                 }
-                long a = System.nanoTime();
-                Principal prin = new Principal();
-                prin.setUsuariosConectados(presentes);
-                a = System.nanoTime() - a;
+                                    a = System.nanoTime() - a;
                 System.out.print("creacion del objeto " + a);
-                prin.setUsuario(usuario);
                 long b = System.nanoTime();
 
-                prin.iniciarServer();
                 prin.estado(1);
                 a = System.nanoTime() - a;
                 System.out.print("creacion del objeto " + a);

@@ -12,7 +12,6 @@ import GUI.Canales.DespligueCanalesGUI;
 import GUI.TransmitirVideo.TrasmitirVideo;
 import Peer2Peer.Point.ClienteP2P;
 import Peer2Peer.Point.ServerPeticionesP2P;
-import Ruteador.Servidor.ServerPeticionesEnrutamiento;
 import de.root1.simon.Simon;
 import de.root1.simon.exceptions.NameBindingException;
 import java.awt.Color;
@@ -20,17 +19,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.rmi.AccessException;
-import java.rmi.AlreadyBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.midi.Transmitter;
 import javax.swing.JButton;
 
 /**
@@ -53,8 +45,7 @@ public class Principal extends javax.swing.JFrame {
     }
     public void iniMio(){
 
-            serverPoint = new ClienteP2P(this);
-            serverPoint.start();
+          
             serverPeticiones = new ServerPeticionesP2P();
             FormatearBoton(jBChat);
             FormatearBoton(jBAmigos);
@@ -311,12 +302,13 @@ public class Principal extends javax.swing.JFrame {
             
             
             // create the server's registry ...
-            de.root1.simon.Registry registry = Simon.createRegistry(22222);
+            de.root1.simon.Registry registry = Simon.createRegistry(Integer.parseInt(usuario.getAmigoPuerto()));
             registry.start();
             // ... where we can bind the serverobject to
-            registry.bind("Enrutador", serverPeticiones);
+                        String  nombreServer ="rmi://"+usuario.getAmigoIp()+":"+usuario.getAmigoPuerto()+"/server";
+
+            registry.bind(nombreServer, serverPeticiones);
             
-            String  nombreServer ="rmi://"+usuario.getAmigoIp()+":"+usuario.getAmigoPuerto()+"/server";
             System.out.println(usuario.getAmigoPuerto());
             System.out.println(nombreServer);
             
@@ -339,5 +331,10 @@ public class Principal extends javax.swing.JFrame {
         boton.setBackground(Color.white);
         boton.setForeground(Color.black);
         boton.setFont(new Font("utopia",Font.BOLD, 12));
+    }
+    public void IniciarCliente(){
+      serverPoint = new ClienteP2P(this);
+            serverPoint.start();
+    
     }
 }
