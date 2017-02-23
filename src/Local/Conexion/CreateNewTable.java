@@ -34,7 +34,7 @@ public class CreateNewTable {
                 + ");";
         
         String sql_2 = "CREATE TABLE IF NOT EXISTS datosnodoactual (\n"
-                + "	IdAmigo int(11) PRIMARY KEY,\n"
+                + "	IdAmigo INTEGER PRIMARY KEY,\n"
                 + "	AmigoIP char(20) DEFAULT NULL,\n"
                 + "	AmigoPuerto char(20) DEFAULT NULL,\n"
                 + "	AmigoCertificado text,\n"

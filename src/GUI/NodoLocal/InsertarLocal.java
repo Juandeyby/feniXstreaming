@@ -212,7 +212,7 @@ public class InsertarLocal extends javax.swing.JFrame {
             String  apodo = jTApodo.getText();
             String login = jtUsuarioLogin.getText();
             String  contra = jtContra.getText();
-            String host = getIp();
+            String host = InetAddress.getLocalHost().getHostAddress();
             String puerto =  "4545";
             String ruta = "./compartido";
             String estadoActual = "0" ;
