@@ -202,7 +202,7 @@ public class login extends javax.swing.JFrame {
         if (usuario != null) {
 
             try {
-                 Lookup nameLookup = Simon.createNameLookup("192.168.43.105", 22222);
+                 Lookup nameLookup = Simon.createNameLookup("192.168.0.160", 22222);
         TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
                 usuario = new UsuarioLogueado(usuName, contra);
 

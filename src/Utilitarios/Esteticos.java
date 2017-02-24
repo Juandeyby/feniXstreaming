@@ -45,6 +45,6 @@ public class Esteticos {
     public static void formatearTitulo (JLabel titulo) {
 //         titulo.setBackground(new Color(0,175,239));
 //         titulo.setForeground(new Color(0,0,0));
-        titulo.setFont(new Font("Exotc350 Bd BT", Font.PLAIN, 16));
+        titulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
     }
 }
