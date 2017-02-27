@@ -3,12 +3,19 @@ package Peer2Peer.Point;
 import Ruteador.Servidor.*;
 import Bean.Amigo;
 import Bean.UsuarioLogueado;
+import GUI.Chat.Chat;
+import GUI.Chat.Mensaje;
 import GUI.Principal.Principal;
 import Local.Conexion.SelectApp;
 import Peer2Peer.Bean.Video;
 import Ruteador.Bean.dota;
 import Ruteador.Bean.UsuarioConneccion;
+import de.root1.simon.Lookup;
+import de.root1.simon.Simon;
 import de.root1.simon.annotation.SimonRemote;
+import de.root1.simon.exceptions.EstablishConnectionFailed;
+import de.root1.simon.exceptions.LookupFailedException;
+import java.net.UnknownHostException;
 import java.rmi.Remote;
 
 /*
@@ -26,24 +33,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.player.MediaPlayer;
+
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.player.headless.HeadlessMediaPlayer;
 @SimonRemote(value = {TestRemoteP2P.class}) 
-
 public class ServerPeticionesP2P implements TestRemoteP2P {
 
     private ArrayList<Video> videos = new ArrayList<Video>();
     private Video VidoeoUnico;
     private ArrayList<HeadlessMediaPlayer> streaming = new ArrayList<>();
-    
-
+    private Map<Integer, Chat> chats   = new HashMap<>();
+    private Map<Integer, Chat> chatsMios   = new HashMap<>();
+ 
     @Override
     public dota sayHello(String name) {
         return new dota();
@@ -143,4 +150,73 @@ public class ServerPeticionesP2P implements TestRemoteP2P {
          
     
     }
+    public void EnviarMensajeOtrosHost (int IdCanal , Mensaje Men){
+        Collection < Chat> ch = chats.values();
+        for (Chat chat : ch) {
+            ArrayList <UsuarioLogueado> logueados= chat.getUsuarios();
+            for(UsuarioLogueado amiguito : logueados){  
+                try {
+                    String nombreServer = "rmi://" + amiguito.getAmigoIp() + ":" + amiguito.getAmigoPuerto() + "/server";
+                    Lookup nameLookup = Simon.createNameLookup(amiguito.getAmigoIp(),Integer.parseInt( amiguito.getAmigoPuerto()));
+                    
+                    
+                    TestRemoteP2P testRemote = (TestRemoteP2P)nameLookup.lookup(nombreServer);
+                    testRemote.EscribirMensaje(IdCanal, Men);
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(ServerPeticionesP2P.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LookupFailedException ex) {
+                    Logger.getLogger(ServerPeticionesP2P.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (EstablishConnectionFailed ex) {
+                    Logger.getLogger(ServerPeticionesP2P.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }}
+ 
+    }
+
+    @Override
+    public void EscribirMensaje(int a, Mensaje men) {
+        chats.get(a).getMensajes().add(men);
+
+    }
+      @Override
+    public void EscribirMensajeHost(int a, Mensaje men) {
+        chatsMios.get(a).getMensajes().add(men);
+
+    }
+    public void DepurarChat(){
+        
+    
+    }
+
+    public Map<Integer, Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(Map<Integer, Chat> chats) {
+        this.chats = chats;
+    }
+
+    /***
+     * @see retorna arrayList de chats del usuario ;
+     */
+    @Override
+
+    public ArrayList<Chat> TellMeYourChats() {
+        ArrayList<Chat> chat3s = new ArrayList<>();
+        Collection <Chat> chatCollection = chatsMios.values();
+        for (Chat chat : chatCollection) {
+            chat3s.add(chat);
+            System.out.print("q carajos nohay nada ");
+        }
+        return chat3s ; 
+    }
+
+    public Map<Integer, Chat> getChatsMios() {
+        return chatsMios;
+    }
+
+    public void setChatsMios(Map<Integer, Chat> chatsMios) {
+        this.chatsMios = chatsMios;
+    }
+    
 }

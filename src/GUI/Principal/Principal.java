@@ -5,10 +5,11 @@
  */
 package GUI.Principal;
 
-import Bean.Amigo;
+import Bean.UsuarioLogueado;
 import Bean.UsuarioLogueado;
 import GUI.Amigo.AgregarAmigo;
 import GUI.Canales.DespligueCanalesGUI;
+import GUI.Chat.CanalesChat;
 import GUI.TransmitirVideo.TrasmitirVideo;
 import Peer2Peer.Point.ClienteP2P;
 import Peer2Peer.Point.ServerPeticionesP2P;
@@ -35,7 +36,7 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     private UsuarioLogueado usuario ;
-    private ArrayList<Amigo> usuariosConectados ;
+    private ArrayList<UsuarioLogueado> usuariosConectados ;
     private ClienteP2P serverPoint ; 
     private ServerPeticionesP2P serverPeticiones;
     public Principal() {
@@ -66,10 +67,10 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jBCanales = new javax.swing.JButton();
-        jBAmigos = new javax.swing.JButton();
         jBCompartirDir = new javax.swing.JButton();
         jBCerrrarSescion1 = new javax.swing.JButton();
         jBChat = new javax.swing.JButton();
+        jBAmigos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,15 +82,6 @@ public class Principal extends javax.swing.JFrame {
         jBCanales.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBCanalesActionPerformed(evt);
-            }
-        });
-
-        jBAmigos.setBackground(new java.awt.Color(198, 198, 167));
-        jBAmigos.setFont(new java.awt.Font("Utopia", 1, 18)); // NOI18N
-        jBAmigos.setText("Agregar Amigo");
-        jBAmigos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBAmigosActionPerformed(evt);
             }
         });
 
@@ -108,36 +100,54 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jBChat.setText("Chat");
+        jBChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBChatActionPerformed(evt);
+            }
+        });
+
+        jBAmigos.setBackground(new java.awt.Color(198, 198, 167));
+        jBAmigos.setFont(new java.awt.Font("Utopia", 1, 18)); // NOI18N
+        jBAmigos.setText("Agregar Amigo");
+        jBAmigos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAmigosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jBCanales, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBCompartirDir, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jBChat, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jBCanales, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(97, 97, 97)
+                        .addComponent(jBCompartirDir, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(jBAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(jBChat, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addComponent(jBCerrrarSescion1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(44, 44, 44))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jBChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBCanales, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jBAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jBCompartirDir, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                        .addComponent(jBCerrrarSescion1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBCanales, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBCompartirDir, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBCerrrarSescion1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBAmigos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBChat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -147,14 +157,14 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(28, 28, 28)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -162,9 +172,8 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(30, 30, 30))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,7 +191,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jBCanalesActionPerformed
 
     private void jBAmigosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAmigosActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code heare:
         AgregarAmigo addAmi = new AgregarAmigo(this);
         addAmi.estado(1);
     }//GEN-LAST:event_jBAmigosActionPerformed
@@ -196,6 +205,13 @@ public class Principal extends javax.swing.JFrame {
     private void jBCerrrarSescion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCerrrarSescion1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBCerrrarSescion1ActionPerformed
+
+    private void jBChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBChatActionPerformed
+        // TODO add your handling code here:
+        CanalesChat can= new CanalesChat();
+        can.setPapa(this);
+        can.setVisible(true);
+    }//GEN-LAST:event_jBChatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,11 +277,11 @@ public class Principal extends javax.swing.JFrame {
 
  }
 
-    public ArrayList<Amigo> getUsuariosConectados() {
+    public ArrayList<UsuarioLogueado> getUsuariosConectados() {
         return usuariosConectados;
     }
 
-    public void setUsuariosConectados(ArrayList<Amigo> usuariosConectados) {
+    public void setUsuariosConectados(ArrayList<UsuarioLogueado> usuariosConectados) {
         this.usuariosConectados = usuariosConectados;
     }
 

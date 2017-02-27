@@ -6,8 +6,11 @@
 package GUI.Principal;
 
 import Bean.Amigo;
+import Bean.InterfazSesion;
+import Bean.Sesion;
 import Bean.UsuarioLogueado;
 import GUI.NodoLocal.InsertarLocal;
+import Ruteador.Servidor.ConectServerEnruteador;
 import Ruteador.Servidor.TestRemote;
 import Utilitarios.Esteticos;
 import de.root1.simon.Lookup;
@@ -202,8 +205,7 @@ public class login extends javax.swing.JFrame {
         if (usuario != null) {
 
             try {
-                 Lookup nameLookup = Simon.createNameLookup("192.168.0.160", 22222);
-        TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
+            TestRemote testRemote =ConectServerEnruteador.getInstanceOfServerEnruteador();
                 usuario = new UsuarioLogueado(usuName, contra);
 
                 if (usuario.getAmigoIp() == null) {
@@ -232,11 +234,12 @@ public class login extends javax.swing.JFrame {
 
                                prin.iniciarServer();
                                     prin.IniciarCliente();
-               
-               ArrayList<Amigo> presentes = testRemote.ImHere(usuario);
+               InterfazSesion sec=   (InterfazSesion)( testRemote.logueame(usuario));
+               ArrayList<UsuarioLogueado> presentes = testRemote.ImHere(usuario);
+                prin.setUsuario(presentes.get(presentes.size()-1));
                                                    prin.setUsuariosConectados(presentes);
 
-                        nameLookup.release(testRemote);
+                       
 
                 //Amigo.CambiarAmigos(presentes);
                 if (presentes == null) {
@@ -258,10 +261,6 @@ public class login extends javax.swing.JFrame {
                 this.setVisible(false);
 
             }  catch (UnknownHostException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (LookupFailedException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (EstablishConnectionFailed ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
 

@@ -6,13 +6,17 @@ En este planteo lo que hacemos es reproducir a todos los amigos  sin importar si
 
 
  */
-import Bean.Amigo;
+import Bean.UsuarioLogueado;
+import GUI.Chat.Chat;
+import GUI.Chat.Mensaje;
 import GUI.Principal.Principal;
 import Peer2Peer.Bean.Video;
 import Peer2Peer.Bean.VideoStreaming;
-import Ruteador.Servidor.*;
+import Ruteador.Servidor.ConectServerEnruteador;
+import Ruteador.Servidor.TestRemote;
 import de.root1.simon.Lookup;
 import de.root1.simon.Simon;
+import de.root1.simon.annotation.SimonRemote;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.exceptions.LookupFailedException;
 import java.net.UnknownHostException;
@@ -22,15 +26,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+@SimonRemote(value = {InterfazCLienteP2p.class}) 
 
-public class ClienteP2P extends Thread {
+public class ClienteP2P extends Thread  implements InterfazCLienteP2p{
 
     private Video videito;
     private Principal papa;
     private static ClienteP2P instance;
-    private ArrayList<Amigo> usuariosConectados = new ArrayList<Amigo>();
-    private Map<Amigo, VideoStreaming> videos = new HashMap<>();
-
+    private ArrayList<UsuarioLogueado> usuariosConectados = new ArrayList<UsuarioLogueado>();
+    private Map<UsuarioLogueado, VideoStreaming> videos = new HashMap<>();
+    private Map<Integer, Chat> chatsLocales   = new HashMap<>();
     public static ClienteP2P getInstance() {
         if (instance == null) {
             instance = new ClienteP2P();
@@ -70,26 +75,13 @@ public class ClienteP2P extends Thread {
     }
 
     public void iniciarEscuchaServer() {
-  
-        try {
-           
-            Lookup nameLookup = Simon.createNameLookup("192.168.0.160", 22222);
-            TestRemote testRemote = (TestRemote) nameLookup.lookup("Enrutador");
-            
-            ArrayList<Amigo> presente = testRemote.WhoIsThere();
-                                    nameLookup.release(testRemote);
-
+           TestRemote testRemote = ConectServerEnruteador.getInstanceOfServerEnruteador();
+            ArrayList<UsuarioLogueado> presente = testRemote.WhoIsThere();
+           if (papa.getUsuariosConectados().size()> presente.size())
+           { papa.setUsuariosConectados(presente);
+            papa.getServerPeticiones().DepurarChat();}
             papa.setUsuariosConectados(presente);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LookupFailedException ex) {
-            Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (EstablishConnectionFailed ex) {
-            Logger.getLogger(ClienteP2P.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-    }
+  }
 
     public Video getVideito() {
         return videito;
@@ -99,19 +91,19 @@ public class ClienteP2P extends Thread {
         this.videito = videito;
     }
 
-    public ArrayList<Amigo> getUsuariosConectados() {
+    public ArrayList<UsuarioLogueado> getUsuariosConectados() {
         return usuariosConectados;
     }
 
-    public void setUsuariosConectados(ArrayList<Amigo> usuariosConectados) {
+    public void setUsuariosConectados(ArrayList<UsuarioLogueado> usuariosConectados) {
         this.usuariosConectados = usuariosConectados;
     }
 
-    public Map<Amigo, VideoStreaming> getVideos() {
+    public Map<UsuarioLogueado, VideoStreaming> getVideos() {
         return videos;
     }
 
-    public void setVideos(Map<Amigo, VideoStreaming> videos) {
+    public void setVideos(Map<UsuarioLogueado, VideoStreaming> videos) {
         this.videos = videos;
     }
 
@@ -126,4 +118,10 @@ public class ClienteP2P extends Thread {
     public void ReiniciarStreaming() {
 
     }
+
+    @Override
+    public void EscribirMensaje(Mensaje men, int i) {
+        chatsLocales.get(i).getMensajes().add(men);
+    }
+    
 }

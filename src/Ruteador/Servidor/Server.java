@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import de.root1.simon.Registry;
-import de.root1.simon.Simon;import de.root1.simon.exceptions.NameBindingException;
+import de.root1.simon.Simon;import de.root1.simon.SimonUnreferenced;
+import de.root1.simon.exceptions.NameBindingException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 
-public class Server extends Thread{
+public class Server extends Thread implements  SimonUnreferenced{
     
    
     public static void main(String[] args) throws NameBindingException, IOException  {
@@ -27,5 +28,10 @@ public class Server extends Thread{
         registry.bind("Enrutador", serverImpl);
 
         
+    }
+
+    @Override
+    public void unreferenced() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

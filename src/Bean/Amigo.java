@@ -8,6 +8,7 @@ package Bean;
 //import static Bean.UsuarioLogueado.cn;
 import GUI.Principal.login;
 import Local.Conexion.InsertApp;
+import de.root1.simon.annotation.SimonRemote;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +23,8 @@ import java.util.logging.Logger;
  *
  * @author USUARIO
  */
-public class Amigo implements Serializable {
+
+public class Amigo  implements Serializable{
 
     private int idAmigo;
 

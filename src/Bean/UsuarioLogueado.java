@@ -6,6 +6,10 @@
 package Bean;
 
 import Local.Conexion.InsertApp;
+import Ruteador.Servidor.ServerPeticionesEnrutamiento;
+import Ruteador.Servidor.TestRemote;
+import de.root1.simon.SimonUnreferenced;
+import de.root1.simon.annotation.SimonRemote;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,9 +23,8 @@ import sun.security.util.Password;
  *
  * @author USUARIO
  */
-public class UsuarioLogueado extends Amigo implements  Serializable{
-
-    private ArrayList<Canal> canales = new ArrayList<Canal>();
+public class UsuarioLogueado extends Amigo implements  Serializable,SimonUnreferenced , Cloneable{
+     private TestRemote server ;
     public UsuarioLogueado(){}
     public UsuarioLogueado(String usuarioNombre, String password) {
         String sql = "SELECT * FROM datosnodoactual WHERE "
@@ -82,14 +85,30 @@ public class UsuarioLogueado extends Amigo implements  Serializable{
 
     }
 
-    public ArrayList<Canal> getCanales() {
-        return canales;
+ 
+    @Override
+    public void unreferenced() {
+        System.err.println("hey  you ");
+         server.ImNotHere(this);
+
     }
 
-    public void setCanales(ArrayList<Canal> canales) {
-        this.canales = canales;
+    public TestRemote getServer() {
+        return server;
     }
 
+    public void setServer(ServerPeticionesEnrutamiento server) {
+        this.server = server;
+    }
+  public Object clone(){
+        UsuarioLogueado obj=null;
+        try{
+            obj=(UsuarioLogueado)super.clone();
+        }catch(CloneNotSupportedException ex){
+            System.out.println(" no se puede duplicar");
+        }
+        return obj;
+    }
   
 
 }

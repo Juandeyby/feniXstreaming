@@ -6,6 +6,7 @@
 package GUI.Canales;
 
 import Bean.Amigo;
+import Bean.UsuarioLogueado;
 import GUI.Principal.Principal;
 import Peer2Peer.Bean.Video;
 import Peer2Peer.Point.TestRemoteP2P;
@@ -296,7 +297,7 @@ public class CanalGUI extends javax.swing.JFrame {
 
         DefaultListModel model = new DefaultListModel();
 
-        ArrayList<Amigo> usuariosConectados = papa.getUsuariosConectados();
+        ArrayList<UsuarioLogueado> usuariosConectados = papa.getUsuariosConectados();
         int a = 0;
         for (Amigo amiguito : usuariosConectados) {
         
